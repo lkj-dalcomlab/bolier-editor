@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {Rect} from "../editor/control/Rect.js";
 import {EventType} from "./EventType.js";
 import {CreateRectRender} from "../editor/CreateRectRender.js";
+import {ControlUtil} from "../editor/control/ControlUtil.js";
 
 export class CreateRectEventHandler extends EventHandler {
     constructor(editor) {
@@ -39,10 +40,7 @@ export class CreateRectEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        if (Math.abs(e.downPoint.x - e.point.x) <= 5 &&
-            Math.abs(e.downPoint.y - e.point.y) <= 5) {
-            this.rect.setPosition(e.point);
-        }
+        ControlUtil.checkDragPosition(this.rect, e.downPoint, e.point);
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.rect);

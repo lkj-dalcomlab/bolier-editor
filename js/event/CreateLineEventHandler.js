@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {Line} from "../editor/control/Line.js";
 import {CreateLineRender} from "../editor/CreateLineRender.js";
+import {ControlUtil} from "../editor/control/ControlUtil.js";
 
 export class CreateLineEventHandler extends EventHandler {
     constructor(editor) {
@@ -31,10 +32,7 @@ export class CreateLineEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        if (Math.abs(e.downPoint.x - e.point.x) <= 5 &&
-            Math.abs(e.downPoint.y - e.point.y) <= 5) {
-            this.line.setPosition(e.point);
-        }
+        ControlUtil.checkDragPosition(this.line, e.downPoint, e.point);
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.line);

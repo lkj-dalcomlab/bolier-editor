@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {CreateTriangleRender} from "../editor/CreateTriangleRender.js";
 import {Triangle} from "../editor/control/Triangle.js";
 import {EventType} from "./EventType.js";
+import {ControlUtil} from "../editor/control/ControlUtil.js";
 
 export class CreateTriangleEventHandler extends EventHandler {
     constructor(editor) {
@@ -33,10 +34,7 @@ export class CreateTriangleEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        if (Math.abs(e.downPoint.x - e.point.x) <= 5 &&
-            Math.abs(e.downPoint.y - e.point.y) <= 5) {
-            this.triangle.setPosition(e.point);
-        }
+        ControlUtil.checkDragPosition(this.triangle, e.downPoint, e.point);
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.triangle);

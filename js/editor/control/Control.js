@@ -52,6 +52,9 @@ export class Control {
     move(p) {
     }
 
+    setPosition(p) {
+    }
+
     render(painter) {
     }
 
