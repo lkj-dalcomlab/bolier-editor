@@ -64,6 +64,7 @@ export class Page {
     }
 
     render() {
+        this.transform();
         this.renderBackground();
         this._controls.forEach(control => {
             control.render(this.painter);

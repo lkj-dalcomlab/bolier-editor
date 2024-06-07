@@ -29,7 +29,6 @@ export class PageEventHandler extends EventHandler {
         coordinate.wayPoint.x += mx;
         coordinate.wayPoint.y += my;
 
-        page.transform();
         page.render();
     }
 
