@@ -46,7 +46,17 @@ export class Polygon extends Control {
     }
 
     ptInControl(p) {
-        super.ptInControl(p);
+        let x = p.x, y = p.y;
+        let inside = false;
+        const points = this.points;
+        for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+            let xi = points[i].x, yi = points[i].y;
+            let xj = points[j].x, yj = points[j].y;
+            let intersect = ((yi > y) !== (yj > y)) &&
+                (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
     }
 
     ptInHoverControl(p) {
@@ -55,9 +65,5 @@ export class Polygon extends Control {
 
     ptInSelectControl(p) {
         super.ptInSelectControl(p);
-    }
-
-    ptInPoint(p) {
-        super.ptInPoint(p);
     }
 }

@@ -2,6 +2,9 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 
 export class SelectEventHandler extends EventHandler {
+    constructor() {
+        super();
+    }
 
     get type() {
         return EventType.SELECT;
@@ -14,18 +17,18 @@ export class SelectEventHandler extends EventHandler {
         const page = e.editor.page;
         page.coordinate.curPoint = {x: e.originEvent.offsetX, y: e.originEvent.offsetY};
 
+        let render = null;
         const controls = page.controls;
         for (const control of controls) {
-            const render = control.ptInHoverControl(e.point);
+            render = control.ptInHoverControl(e.point);
             if (render !== null) {
                 page.hoverControl = render;
-                page.render();
-                console.log('render');
-                return;
+                break;
             }
         }
 
-        page.hoverControl = null;
+        page.hoverControl = render;
+        page.render();
     }
 
     onMouseUp(e) {

@@ -1,10 +1,10 @@
-import {Control, HEIGHT, WIDTH} from "./Control.js";
+import {HEIGHT, WIDTH} from "./Control.js";
 import {Polygon} from "./Polygon.js";
+import {HoverTriangleRender} from "./render/HoverTriangleRender.js";
 
 export class Triangle extends Polygon {
     constructor() {
         super();
-        this.fillColor = 'rgb(127,227,142)';
         this._top = { x:0, y:0 };
         this._left = { x:0, y:0 };
         this._right = { x:0, y:0 };
@@ -43,18 +43,17 @@ export class Triangle extends Polygon {
     }
 
     ptInControl(p) {
-        super.ptInControl(p);
+        return super.ptInControl(p);
     }
 
     ptInHoverControl(p) {
-        super.ptInHoverControl(p);
+        if (this.ptInControl(p)) {
+            return new HoverTriangleRender(this);
+        }
+        return null;
     }
 
     ptInSelectControl(p) {
         super.ptInSelectControl(p);
-    }
-
-    ptInPoint(p) {
-        super.ptInPoint(p);
     }
 }

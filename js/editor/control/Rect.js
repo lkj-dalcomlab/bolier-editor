@@ -1,10 +1,10 @@
 import {Polygon} from "./Polygon.js";
 import {HEIGHT, WIDTH} from "./Control.js";
+import {HoverRectRender} from "./render/HoverRectRender.js";
 
 export class Rect extends Polygon {
     constructor() {
         super();
-        this.fillColor = 'rgb(127,227,142)';
         this._lt = { x:0, y:0 };
         this._rt = { x:0, y:0 };
         this._rb = { x:0, y:0 };
@@ -65,14 +65,16 @@ export class Rect extends Polygon {
     }
 
     ptInControl(p) {
+        return super.ptInControl(p);
     }
 
     ptInHoverControl(p) {
+        if (this.ptInControl(p)) {
+            return new HoverRectRender(this);
+        }
+        return null;
     }
 
     ptInSelectControl(p) {
-    }
-
-    ptInPoint(p) {
     }
 }

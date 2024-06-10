@@ -45,6 +45,47 @@ export class Painter {
         ctx.restore();
     }
 
+    drawRect(rect) {
+        const lt = rect.lt;
+        const rt = rect.rt;
+        const rb = rect.rb;
+        const lb = rect.lb;
+
+        const ctx = this.ctx;
+        ctx.moveTo(lt.x, lt.y);
+        ctx.lineTo(rt.x, rt.y);
+        ctx.lineTo(rb.x, rb.y);
+        ctx.lineTo(lb.x, lb.y);
+        ctx.lineTo(lt.x, lt.y);
+        this.lineEnd();
+    }
+
+    drawTriangle(triangle) {
+        const top = triangle.top;
+        const left = triangle.left;
+        const right = triangle.right;
+
+        const ctx = this.ctx;
+        ctx.moveTo(top.x, top.y);
+        ctx.lineTo(left.x, left.y);
+        ctx.lineTo(right.x, right.y);
+        ctx.lineTo(top.x, top.y);
+        this.lineEnd();
+    }
+
+    drawCircle(circle) {
+        const ctx = this.ctx;
+        ctx.ellipse(circle.p.x, circle.p.y, circle.xRadius, circle.yRadius, 0, 0, 2*Math.PI);
+        this.lineEnd();
+    }
+
+    fill(color, opacity) {
+        const ctx = this.ctx;
+        ctx.fillStyle = color;
+        ctx.globalAlpha = opacity;
+        ctx.fill();
+    }
+
     drawImage(img, x, y, w, h) {
         this._ctx.drawImage(img, x, y, w, h);
     }

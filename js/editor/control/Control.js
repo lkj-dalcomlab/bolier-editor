@@ -4,7 +4,7 @@ export class Control {
     constructor() {
         this._lineWidth = 1;
         this._lineColor = 'black';
-        this._fillColor = 'none';
+        this._fillColor = 'rgb(189,246,197)';
         this._select = false;
         this._hover = false;
     }
@@ -65,8 +65,5 @@ export class Control {
     }
 
     ptInSelectControl(p) {
-    }
-
-    ptInPoint(p) {
     }
 }

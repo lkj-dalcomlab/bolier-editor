@@ -1,5 +1,8 @@
-export class HoverLineRender {
+import {ControlRender} from "../ControlRender.js";
+
+export class HoverLineRender extends ControlRender {
     constructor(line) {
+        super();
         this.line = line;
     }
 

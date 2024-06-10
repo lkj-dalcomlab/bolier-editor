@@ -1,9 +1,9 @@
 import {Control, HEIGHT, WIDTH} from "./Control.js";
+import {HoverCircleRender} from "./render/HoverCircleRender.js";
 
 export class Circle extends Control {
     constructor() {
         super();
-        this.fillColor = 'rgb(127,227,142)';
         this._p = { x:0, y:0 };
         this._xRadius = WIDTH/2;
         this._yRadius = HEIGHT/2;
@@ -50,18 +50,20 @@ export class Circle extends Control {
     }
 
     ptInControl(p) {
-        super.ptInControl(p);
+        const circlePoint = this.p;
+        const dx = p.x - circlePoint.x;
+        const dy = p.y - circlePoint.y;
+        return (dx * dx) / (this.xRadius * this.xRadius) + (dy * dy) / (this.yRadius * this.yRadius) <= 1;
     }
 
     ptInHoverControl(p) {
-        super.ptInHoverControl(p);
+        if (this.ptInControl(p)) {
+            return new HoverCircleRender(this);
+        }
+        return null;
     }
 
     ptInSelectControl(p) {
         super.ptInSelectControl(p);
-    }
-
-    ptInPoint(p) {
-        super.ptInPoint(p);
     }
 }

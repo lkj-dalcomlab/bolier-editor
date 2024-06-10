@@ -1,5 +1,8 @@
-export class CreateLineRender {
+import {ControlRender} from "./control/ControlRender.js";
+
+export class CreateLineRender extends ControlRender {
     constructor(line) {
+        super();
         this.line = line;
     }
 

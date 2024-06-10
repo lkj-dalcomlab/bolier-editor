@@ -1,27 +1,16 @@
-export class CreateRectRender {
+import {ControlRender} from "./control/ControlRender.js";
+
+export class CreateRectRender extends ControlRender {
     constructor(rect) {
+        super();
         this.rect = rect;
     }
 
     render(painter) {
-        const rect = this.rect;
-        const lt = rect.lt;
-        const rt = rect.rt;
-        const rb = rect.rb;
-        const lb = rect.lb;
-
-        const ctx = painter.ctx;
         painter.start();
         painter.lineOption('grey', 1, 0.5);
-        ctx.moveTo(lt.x, lt.y);
-        ctx.lineTo(rt.x, rt.y);
-        ctx.lineTo(rb.x, rb.y);
-        ctx.lineTo(lb.x, lb.y);
-        ctx.lineTo(lt.x, lt.y);
-        painter.lineEnd();
-        ctx.fillStyle = rect.fillColor;
-        ctx.globalAlpha = 0.1;
-        ctx.fill();
+        painter.drawRect(this.rect);
+        painter.fill(this.rect.fillColor, 0.1);
         painter.end();
     }
 }

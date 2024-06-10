@@ -20,7 +20,7 @@ export class Line extends Control {
         this.p1.x = p.x;
         this.p1.y = p.y;
         this.p2.x = p.x + 50;
-        this.p2.y = p.y - 50;
+        this.p2.y = p.y + 50;
     }
 
     move(p) {
@@ -35,19 +35,6 @@ export class Line extends Control {
     }
 
     ptInControl(p) {
-    }
-
-    ptInHoverControl(p) {
-        if (this.ptInPoint(p)) {
-            return new HoverLineRender(this);
-        }
-        return null;
-    }
-
-    ptInSelectControl(p) {
-    }
-
-    ptInPoint(p) {
         let x = p.x;
         let y = p.y;
         let x1 = this.p1.x;
@@ -61,5 +48,15 @@ export class Line extends Control {
         const d = b + c - a;
 
         return d <= 1;
+    }
+
+    ptInHoverControl(p) {
+        if (this.ptInControl(p)) {
+            return new HoverLineRender(this);
+        }
+        return null;
+    }
+
+    ptInSelectControl(p) {
     }
 }
