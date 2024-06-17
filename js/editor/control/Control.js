@@ -7,6 +7,8 @@ export class Control {
         this._fillColor = 'rgb(189,246,197)';
         this._select = false;
         this._hover = false;
+        this._minPoint = { x: 0, y: 0};
+        this._maxPoint = { x: 0, y: 0};
     }
 
     get lineWidth() {
@@ -47,6 +49,17 @@ export class Control {
 
     set hover(value) {
         this._hover = value;
+    }
+
+    get minPoint() {
+        return this._minPoint;
+    }
+
+    get maxPoint() {
+        return this._maxPoint;
+    }
+
+    updateSelectPosition() {
     }
 
     move(p) {

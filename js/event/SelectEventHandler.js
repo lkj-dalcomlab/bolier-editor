@@ -11,6 +11,19 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onMouseDown(e) {
+        let render = null;
+        const page = e.editor.page;
+        const controls = page.controls;
+        for (const control of controls) {
+            render = control.ptInSelectControl(e.point);
+            if (render !== null) {
+                console.log('select control');
+                break;
+            }
+        }
+
+        page.selectControl = render;
+        page.render();
     }
 
     onMouseMove(e) {
@@ -22,7 +35,6 @@ export class SelectEventHandler extends EventHandler {
         for (const control of controls) {
             render = control.ptInHoverControl(e.point);
             if (render !== null) {
-                page.hoverControl = render;
                 break;
             }
         }
@@ -38,6 +50,7 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onKeyDown(e) {
+        console.log(e.originEvent.key);
     }
 
     onKeyUp(e) {

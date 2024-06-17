@@ -1,5 +1,6 @@
 import {Control} from "./Control.js";
 import {HoverLineRender} from "./render/HoverLineRender.js";
+import {SelectLineRender} from "./render/SelectLineRender.js";
 
 export class Line extends Control {
     constructor() {
@@ -21,6 +22,24 @@ export class Line extends Control {
         this.p1.y = p.y;
         this.p2.x = p.x + 50;
         this.p2.y = p.y + 50;
+    }
+
+    updateSelectPosition() {
+        if (this.p1.x > this.p2.x) {
+            this.minPoint.x = this.p2.x;
+            this.maxPoint.x = this.p1.x;
+        } else {
+            this.minPoint.x = this.p1.x;
+            this.maxPoint.x = this.p2.x;
+        }
+
+        if (this.p1.y > this.p2.y) {
+            this.minPoint.y = this.p2.y;
+            this.maxPoint.y = this.p1.y;
+        } else {
+            this.minPoint.y = this.p1.y;
+            this.maxPoint.y = this.p2.y;
+        }
     }
 
     move(p) {
@@ -58,5 +77,9 @@ export class Line extends Control {
     }
 
     ptInSelectControl(p) {
+        if (this.ptInControl(p)) {
+            return new SelectLineRender(this);
+        }
+        return null;
     }
 }

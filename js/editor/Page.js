@@ -70,7 +70,7 @@ export class Page {
             control.render(this.painter);
         });
         this.hoverControl?.render(this.painter);
-        this.selectControl?.render(this.ctx);
+        this.selectControl?.render(this.painter);
     }
 
     captureRender() {
