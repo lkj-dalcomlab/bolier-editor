@@ -79,7 +79,7 @@ export class Painter {
         this.lineEnd();
     }
 
-    fill(color, opacity) {
+    fill(color, opacity = 1) {
         const ctx = this.ctx;
         ctx.fillStyle = color;
         ctx.globalAlpha = opacity;

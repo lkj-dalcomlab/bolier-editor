@@ -9,6 +9,11 @@ export class Editor {
         this.canvas.width = width;
         this.canvas.height = height;
 
+        this.ctx = this.canvas.getContext('2d');
+        this.page = new Page(this.ctx);
+        this.eventManager = new EventManager(this);
+        this._tools = new Tools(this);
+
         this.foregroundRender = null;
 
         // this._undoManager = new UndoManager();
@@ -23,10 +28,6 @@ export class Editor {
         root.appendChild(toolbar);
         root.appendChild(this.canvas);
 
-        this.ctx = this.canvas.getContext('2d');
-        this.page = new Page(this.ctx);
-        this.eventManager = new EventManager(this);
-        this.tools = new Tools(this);
         this.page.render();
 
         this.canvas.addEventListener('mousedown', (e)=> {
@@ -58,16 +59,16 @@ export class Editor {
 
     #createToolbar(toolbar) {
         const lineBtn = this.#createButton('draw line', () => {
-            this.tools.createLine();
+            this._tools.createLine();
         });
         const rectBtn = this.#createButton('draw rect', () => {
-            this.tools.createRect();
+            this._tools.createRect();
         });
         const triangleBtn = this.#createButton('draw triangle', () => {
-            this.tools.createTriangle();
+            this._tools.createTriangle();
         });
         const circleBtn = this.#createButton('draw circle', () => {
-            this.tools.createCircle();
+            this._tools.createCircle();
         });
         toolbar.appendChild(lineBtn);
         toolbar.appendChild(rectBtn);
@@ -113,8 +114,16 @@ export class Editor {
         this.foregroundRender = null;
     }
 
+    setDragHandler(handler) {
+        this.eventManager.setDragHandler(handler);
+    }
+
+    clearDragHandler() {
+        this.eventManager.clearDragHandler();
+    }
+
     clearCommand() {
-        this.tools.clear();
+        this._tools.clear();
     }
 
     render() {
@@ -122,7 +131,11 @@ export class Editor {
         this.foregroundRender?.render(this.page.painter);
     }
 
-    // get undoManager() {
+    get tools() {
+        return this._tools;
+    }
+
+// get undoManager() {
     //     return this._undoManager;
     // }
 }

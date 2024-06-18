@@ -1,6 +1,7 @@
 import {HEIGHT, WIDTH} from "./Control.js";
 import {Polygon} from "./Polygon.js";
 import {HoverTriangleRender} from "./render/HoverTriangleRender.js";
+import {SelectControlRender} from "./render/SelectControlRender.js";
 
 export class Triangle extends Polygon {
     constructor() {
@@ -23,6 +24,13 @@ export class Triangle extends Polygon {
 
     get right() {
         return this._right;
+    }
+
+    updateSelectPosition() {
+        this.minPoint.x = Math.min(this.top.x, Math.min(this.right.x, this.left.x));
+        this.minPoint.y = Math.min(this.top.y, Math.min(this.right.y, this.left.y));
+        this.maxPoint.x = Math.max(this.top.x, Math.max(this.right.x, this.left.x));
+        this.maxPoint.y = Math.max(this.top.y, Math.max(this.right.y, this.left.y));
     }
 
     move(p) {
@@ -54,6 +62,9 @@ export class Triangle extends Polygon {
     }
 
     ptInSelectControl(p) {
-        super.ptInSelectControl(p);
+        if (this.ptInControl(p)) {
+            return new SelectControlRender(this);
+        }
+        return null;
     }
 }

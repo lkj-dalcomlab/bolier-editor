@@ -1,17 +1,13 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 
-export class PageEventHandler extends EventHandler {
+export class DragPageEventHandler extends EventHandler {
     constructor() {
         super();
     }
 
     get type() {
-        return EventType.PAGE;
-    }
-
-    onMouseDown(e) {
-
+        return EventType.DRAG_PAGE;
     }
 
     onMouseMove(e) {
@@ -33,12 +29,6 @@ export class PageEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-
-    }
-
-    onMouseWheel(e) {
-        const page = e.editor.page;
-        e.originEvent.deltaY < 0 ? page.scaleIn() : page.scaleOut();
-        page.render();
+        e.editor.clearDragHandler();
     }
 }

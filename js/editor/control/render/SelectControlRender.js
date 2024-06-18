@@ -1,11 +1,9 @@
-import {ControlRender} from "../ControlRender.js";
+import {ControlRender} from "./ControlRender.js";
 import {SelectionRect} from "../SelectionRect.js";
-import {Rect} from "../Rect";
 
 export class SelectControlRender extends ControlRender {
     constructor(control) {
-        super();
-        this.control = control;
+        super(control);
         this.selectionRect = new SelectionRect();
     }
 
@@ -18,23 +16,26 @@ export class SelectControlRender extends ControlRender {
         painter.start();
         painter.lineOption(selRect.lineColor, selRect.lineWidth, 0.8);
         painter.drawRect(this.selectionRect.rect);
-
-        painter.lineOption('black');
-        let rect = this.generateResizeRect(selRect.lt);
-        painter.drawRect(rect);
-        rect = this.generateResizeRect(selRect.rt);
-        painter.drawRect(rect);
-        rect = this.generateResizeRect(selRect.rb);
-        painter.drawRect(rect);
-        rect = this.generateResizeRect(selRect.lb);
-        painter.drawRect(rect);
-
         painter.end();
+
+        painter.start();
+        painter.lineOption('black');
+        let resizeRect = this.#generateResizeRect(selRect.lt);
+        painter.drawRect(resizeRect.rect);
+        resizeRect = this.#generateResizeRect(selRect.rt);
+        painter.drawRect(resizeRect.rect);
+        resizeRect = this.#generateResizeRect(selRect.rb);
+        painter.drawRect(resizeRect.rect);
+        resizeRect = this.#generateResizeRect(selRect.lb);
+        painter.drawRect(resizeRect.rect);
+        painter.fill('white');
+        painter.end();
+
     }
 
-    generateResizeRect(p) {
+    #generateResizeRect(p) {
         const rect = new SelectionRect();
         rect.updatePosition({x: p.x-2, y: p.y-2}, {x: p.x+2, y: p.y+2});
-
+        return rect;
     }
 }

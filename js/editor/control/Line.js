@@ -1,6 +1,7 @@
 import {Control} from "./Control.js";
 import {HoverLineRender} from "./render/HoverLineRender.js";
 import {SelectLineRender} from "./render/SelectLineRender.js";
+import {SelectControlRender} from "./render/SelectControlRender.js";
 
 export class Line extends Control {
     constructor() {
@@ -78,7 +79,7 @@ export class Line extends Control {
 
     ptInSelectControl(p) {
         if (this.ptInControl(p)) {
-            return new SelectLineRender(this);
+            return new SelectControlRender(this);
         }
         return null;
     }

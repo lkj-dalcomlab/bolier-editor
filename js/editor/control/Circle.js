@@ -1,5 +1,6 @@
 import {Control, HEIGHT, WIDTH} from "./Control.js";
 import {HoverCircleRender} from "./render/HoverCircleRender.js";
+import {SelectControlRender} from "./render/SelectControlRender.js";
 
 export class Circle extends Control {
     constructor() {
@@ -29,13 +30,21 @@ export class Circle extends Control {
         this._yRadius = value;
     }
 
+    updateSelectPosition() {
+        this.minPoint.x = this.p.x - this.xRadius;
+        this.minPoint.y = this.p.y - this.yRadius;
+        this.maxPoint.x = this.p.x + this.xRadius;
+        this.maxPoint.y = this.p.y + this.yRadius;
+    }
+
     move(p) {
-        super.move(p);
+        this.p.x += p.x;
+        this.p.y += p.y;
     }
 
     setPosition(p) {
-        this.p.x = p.x + WIDTH/2;
-        this.p.y = p.y + HEIGHT/2;
+        this.p.x = p.x + WIDTH / 2;
+        this.p.y = p.y + HEIGHT / 2;
     }
 
     render(painter) {
@@ -64,6 +73,9 @@ export class Circle extends Control {
     }
 
     ptInSelectControl(p) {
-        super.ptInSelectControl(p);
+        if (this.ptInControl(p)) {
+            return new SelectControlRender(this);
+        }
+        return null;
     }
 }

@@ -11,9 +11,9 @@ export class Polygon extends Control {
     }
 
     move(p) {
-        this._points.forEach(p=> {
-            p.x += p.x;
-            p.y += p.y;
+        this._points.forEach(p_=> {
+            p_.x += p.x;
+            p_.y += p.y;
         });
     }
 
@@ -37,9 +37,7 @@ export class Polygon extends Control {
         ctx.lineWidth = this.lineWidth;
 
         if (this.fillColor !== 'none') {
-            ctx.globalAlpha = this.opacity;
-            ctx.fillStyle = this.fillColor;
-            ctx.fill();
+            painter.fill(this.fillColor, this.opacity);
         }
 
         painter.end();
@@ -64,6 +62,6 @@ export class Polygon extends Control {
     }
 
     ptInSelectControl(p) {
-        super.ptInSelectControl(p);
+        return super.ptInSelectControl(p);
     }
 }

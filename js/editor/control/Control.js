@@ -72,11 +72,14 @@ export class Control {
     }
 
     ptInControl(p) {
+        return false;
     }
 
     ptInHoverControl(p) {
+        return null;
     }
 
     ptInSelectControl(p) {
+        return null;
     }
 }

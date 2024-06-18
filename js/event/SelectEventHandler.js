@@ -1,5 +1,8 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
+import {DragPageEventHandler} from "./DragPageEventHandler.js";
+import {MoveControlEventHandler} from "./MoveControlEventHandler.js";
+import {CursorType} from "../editor/CursorType.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
@@ -17,9 +20,14 @@ export class SelectEventHandler extends EventHandler {
         for (const control of controls) {
             render = control.ptInSelectControl(e.point);
             if (render !== null) {
-                console.log('select control');
                 break;
             }
+        }
+
+        if (render === null) {
+            e.editor.setDragHandler(new DragPageEventHandler());
+        } else {
+            e.editor.setDragHandler(new MoveControlEventHandler());
         }
 
         page.selectControl = render;
@@ -37,6 +45,12 @@ export class SelectEventHandler extends EventHandler {
             if (render !== null) {
                 break;
             }
+        }
+
+        if (page.selectControl !== null && render !== null) {
+            page.setCursor(CursorType.MOVE);
+        } else {
+            page.setCursor(CursorType.DEFAULT);
         }
 
         page.hoverControl = render;

@@ -1,10 +1,9 @@
-import {ControlRender} from "../ControlRender.js";
+import {ControlRender} from "./ControlRender.js";
 import {SelectControlRender} from "./SelectControlRender.js";
 
 export class SelectLineRender extends ControlRender {
     constructor(line) {
-        super();
-        this.line = line;
+        super(line);
         this.selectRender = new SelectControlRender(line);
     }
     render(painter) {

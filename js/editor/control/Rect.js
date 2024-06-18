@@ -1,6 +1,7 @@
 import {Polygon} from "./Polygon.js";
 import {HEIGHT, WIDTH} from "./Control.js";
 import {HoverRectRender} from "./render/HoverRectRender.js";
+import {SelectControlRender} from "./render/SelectControlRender.js";
 
 export class Rect extends Polygon {
     constructor() {
@@ -39,11 +40,15 @@ export class Rect extends Polygon {
         return this._lt.y - this._lb.y;
     }
 
+    updateSelectPosition() {
+        this.minPoint.x = Math.min(this.lt.x, this.rb.x);
+        this.minPoint.y = Math.min(this.lt.y, this.rb.y);
+        this.maxPoint.x = Math.max(this.lt.x, this.rb.x);
+        this.maxPoint.y = Math.max(this.lt.y, this.rb.y);
+    }
+
     move(p) {
-        this.points.forEach(pt => {
-            pt.x += p.x;
-            pt.y += p.y;
-        });
+        super.move(p);
     }
 
     setPosition(p) {
@@ -76,5 +81,9 @@ export class Rect extends Polygon {
     }
 
     ptInSelectControl(p) {
+        if (this.ptInControl(p)) {
+            return new SelectControlRender(this);
+        }
+        return null;
     }
 }
