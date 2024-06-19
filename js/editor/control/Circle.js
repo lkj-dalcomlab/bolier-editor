@@ -73,9 +73,6 @@ export class Circle extends Control {
     }
 
     ptInSelectControl(p) {
-        if (this.ptInControl(p)) {
-            return new SelectControlRender(this);
-        }
-        return null;
+        return super.ptInSelectControl(p);
     }
 }

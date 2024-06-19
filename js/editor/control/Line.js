@@ -1,7 +1,6 @@
 import {Control} from "./Control.js";
 import {HoverLineRender} from "./render/HoverLineRender.js";
-import {SelectLineRender} from "./render/SelectLineRender.js";
-import {SelectControlRender} from "./render/SelectControlRender.js";
+import {PointPosition} from "./PointPosition.js";
 
 export class Line extends Control {
     constructor() {
@@ -50,6 +49,28 @@ export class Line extends Control {
         this.p2.y += p.y;
     }
 
+    resize(resizeType, p) {
+        switch (resizeType) {
+            case PointPosition.LT:
+                this.p1.x += p.x;
+                this.p1.y += p.y;
+                console.log('left top resize', p);
+                break;
+            case PointPosition.RT:
+                this.p2.x += p.x;
+                this.p1.y += p.y;
+                break;
+            case PointPosition.RB:
+                this.p2.x += p.x;
+                this.p2.y += p.y;
+                break;
+            case PointPosition.LB:
+                this.p1.x += p.x;
+                this.p2.y += p.y;
+                break;
+        }
+    }
+
     render(painter) {
         painter.drawLine(this.p1, this.p2, this.lineColor, this.lineWidth);
     }
@@ -78,9 +99,6 @@ export class Line extends Control {
     }
 
     ptInSelectControl(p) {
-        if (this.ptInControl(p)) {
-            return new SelectControlRender(this);
-        }
-        return null;
+        return super.ptInSelectControl(p);
     }
 }

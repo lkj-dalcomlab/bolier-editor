@@ -1,8 +1,10 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
-import {DragPageEventHandler} from "./DragPageEventHandler.js";
-import {MoveControlEventHandler} from "./MoveControlEventHandler.js";
+import {DragPageEventHandler} from "./drag/DragPageEventHandler.js";
+import {MoveControlEventHandler} from "./drag/MoveControlEventHandler.js";
 import {CursorType} from "../editor/CursorType.js";
+import {PointPosition} from "../editor/control/PointPosition.js";
+import {ResizeControlEventHandler} from "./drag/ResizeControlEventHandler.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
@@ -14,8 +16,14 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onMouseDown(e) {
-        let render = null;
         const page = e.editor.page;
+
+        if (page.selectControl !== null && page.selectControl.resizeType !== PointPosition.NONE) {
+            e.editor.setDragHandler(new ResizeControlEventHandler());
+            return;
+        }
+
+        let render = null;
         const controls = page.controls;
         for (const control of controls) {
             render = control.ptInSelectControl(e.point);
@@ -26,9 +34,11 @@ export class SelectEventHandler extends EventHandler {
 
         if (render === null) {
             e.editor.setDragHandler(new DragPageEventHandler());
-        } else {
-            e.editor.setDragHandler(new MoveControlEventHandler());
+            page.selectControl = null;
+            return;
         }
+
+        e.editor.setDragHandler(new MoveControlEventHandler());
 
         page.selectControl = render;
         page.render();
@@ -47,8 +57,19 @@ export class SelectEventHandler extends EventHandler {
             }
         }
 
-        if (page.selectControl !== null && render !== null) {
-            page.setCursor(CursorType.MOVE);
+        if (page.selectControl !== null) {
+            const selControl = page.selectControl.control;
+            const resizeType = selControl.ptInResizePoint(e.point);
+            page.selectControl.resizeType = resizeType;
+            if (resizeType === PointPosition.LT || resizeType === PointPosition.RB) {
+                page.setCursor(CursorType.LT_RB);
+            } else if (resizeType === PointPosition.RT || resizeType === PointPosition.LB) {
+                page.setCursor(CursorType.RT_LB);
+            } else if (render !== null){
+                page.setCursor(CursorType.MOVE);
+            } else {
+                page.setCursor(CursorType.DEFAULT);
+            }
         } else {
             page.setCursor(CursorType.DEFAULT);
         }

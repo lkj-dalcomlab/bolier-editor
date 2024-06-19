@@ -35,6 +35,8 @@ export class CreateTriangleEventHandler extends EventHandler {
 
     onMouseUp(e) {
         ControlUtil.checkDragPosition(this.triangle, e.downPoint, e.point);
+        this.triangle.updateSelectPosition();
+        this.triangle.updatePointRatio();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.triangle);

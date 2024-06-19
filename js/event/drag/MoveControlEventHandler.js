@@ -1,5 +1,4 @@
-import {EventHandler} from "./EventHandler.js";
-import {CursorType} from "../editor/CursorType.js";
+import {EventHandler} from "../EventHandler.js";
 
 export class MoveControlEventHandler extends EventHandler {
 

@@ -1,5 +1,5 @@
-import {EventHandler} from "./EventHandler.js";
-import {EventType} from "./EventType.js";
+import {EventHandler} from "../EventHandler.js";
+import {EventType} from "../EventType.js";
 
 export class DragPageEventHandler extends EventHandler {
     constructor() {

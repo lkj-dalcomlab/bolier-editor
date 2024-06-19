@@ -1,15 +1,16 @@
 import {Polygon} from "./Polygon.js";
 import {HEIGHT, WIDTH} from "./Control.js";
 import {HoverRectRender} from "./render/HoverRectRender.js";
-import {SelectControlRender} from "./render/SelectControlRender.js";
+import {PointPosition} from "./PointPosition.js";
+import {Point} from "./Point.js";
 
 export class Rect extends Polygon {
     constructor() {
         super();
-        this._lt = { x:0, y:0 };
-        this._rt = { x:0, y:0 };
-        this._rb = { x:0, y:0 };
-        this._lb = { x:0, y:0 };
+        this._lt = new Point(PointPosition.LT);
+        this._rt = new Point(PointPosition.RT);
+        this._rb = new Point(PointPosition.RB);
+        this._lb = new Point(PointPosition.LB);
         this.points.push(this._lt);
         this.points.push(this._rt);
         this.points.push(this._rb);
@@ -32,23 +33,37 @@ export class Rect extends Polygon {
         return this._lb;
     }
 
-    get width() {
-        return this._rt.x - this._lt.x;
-    }
-
-    get height() {
-        return this._lt.y - this._lb.y;
-    }
-
     updateSelectPosition() {
-        this.minPoint.x = Math.min(this.lt.x, this.rb.x);
-        this.minPoint.y = Math.min(this.lt.y, this.rb.y);
-        this.maxPoint.x = Math.max(this.lt.x, this.rb.x);
-        this.maxPoint.y = Math.max(this.lt.y, this.rb.y);
+        super.updateSelectPosition();
     }
 
     move(p) {
         super.move(p);
+    }
+
+    resize(resizeType, p) {
+        super.resize(resizeType, p);
+        // if (resizeType === PointPosition.LT) {
+        //     this.lt.x += p.x;
+        //     this.lt.y += p.y;
+        //     this.rt.y += p.y;
+        //     this.lb.x += p.x;
+        // } else if (resizeType === PointPosition.RT) {
+        //     this.rt.x += p.x;
+        //     this.rt.y += p.y;
+        //     this.lt.y += p.y;
+        //     this.rb.x += p.x;
+        // } else if (resizeType === PointPosition.RB) {
+        //     this.rb.x += p.x;
+        //     this.rb.y += p.y;
+        //     this.lb.y += p.y;
+        //     this.rt.x += p.x;
+        // } else {
+        //     this.lb.x += p.x;
+        //     this.lb.y += p.y;
+        //     this.lt.x += p.x;
+        //     this.rb.y += p.y;
+        // }
     }
 
     setPosition(p) {
@@ -76,13 +91,6 @@ export class Rect extends Polygon {
     ptInHoverControl(p) {
         if (this.ptInControl(p)) {
             return new HoverRectRender(this);
-        }
-        return null;
-    }
-
-    ptInSelectControl(p) {
-        if (this.ptInControl(p)) {
-            return new SelectControlRender(this);
         }
         return null;
     }
