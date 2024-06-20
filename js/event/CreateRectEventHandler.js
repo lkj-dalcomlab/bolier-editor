@@ -1,8 +1,8 @@
 import {EventHandler} from "./EventHandler.js";
 import {Rect} from "../editor/control/Rect.js";
 import {EventType} from "./EventType.js";
-import {CreateRectRender} from "../editor/CreateRectRender.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
+import {CreateRectRender} from "../editor/control/render/CreateRectRender.js";
 
 export class CreateRectEventHandler extends EventHandler {
     constructor(editor) {

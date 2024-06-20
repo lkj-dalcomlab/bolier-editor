@@ -14,8 +14,6 @@ export class Control {
         this._hover = false;
         this._minPoint = { x: 0, y: 0};
         this._maxPoint = { x: 0, y: 0};
-        this._width = 0;
-        this._height = 0;
         this.selectionRect = new SelectionRect();
     }
 
@@ -68,19 +66,11 @@ export class Control {
     }
 
     get width() {
-        return this._width;
-    }
-
-    set width(value) {
-        this._width = value;
+        return this.maxPoint.x - this.minPoint.x;
     }
 
     get height() {
-        return this._height;
-    }
-
-    set height(value) {
-        this._height = value;
+        return this.maxPoint.y - this.minPoint.y;
     }
 
     updateSelectPosition() {

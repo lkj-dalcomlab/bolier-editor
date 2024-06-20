@@ -70,10 +70,14 @@ export class Editor {
         const circleBtn = this.#createButton('draw circle', () => {
             this._tools.createCircle();
         });
+        const imageBtn = this.#createButton('insert image', () => {
+            this._tools.createImage();
+        });
         toolbar.appendChild(lineBtn);
         toolbar.appendChild(rectBtn);
         toolbar.appendChild(triangleBtn);
         toolbar.appendChild(circleBtn);
+        toolbar.appendChild(imageBtn);
     }
 
     #createButton(text, clickEvent) {

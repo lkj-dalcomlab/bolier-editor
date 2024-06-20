@@ -1,8 +1,8 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {Circle} from "../editor/control/Circle.js";
-import {CreateCircleRender} from "../editor/CreateCircleRender.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
+import {CreateCircleRender} from "../editor/control/render/CreateCircleRender.js";
 
 export class CreateCircleEventHandler extends EventHandler {
     constructor(editor) {
@@ -35,7 +35,6 @@ export class CreateCircleEventHandler extends EventHandler {
             this.circle.lb.x = e.downPoint.x;
             this.circle.lb.y = e.point.y;
         }
-        console.log(this.circle.xRadius, this.circle.yRadius);
         this.editor.render();
     }
 
