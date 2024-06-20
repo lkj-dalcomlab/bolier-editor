@@ -24,7 +24,8 @@ export class Editor {
 
     #init(root) {
         const toolbar = document.createElement('div');
-        toolbar.className = 'toolbar';
+        toolbar.id = 'toolbar';
+        toolbar.className = 'flex flex-row outline outline-offset-2 outline-1';
         root.appendChild(toolbar);
         root.appendChild(this.canvas);
 
