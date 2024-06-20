@@ -13,12 +13,12 @@ export class ResizeControlEventHandler extends EventHandler {
         e.downPoint.y = e.point.y;
 
         selControl.control.resize(resizeType, {x: mx, y: my});
-        console.log(selControl.control.points);
         selControl.control.updateSelectPosition();
         e.editor.render();
     }
 
     onMouseUp(e) {
+        e.editor.page.selectControl.control.updatePointPosition();
         e.editor.page.selectControl.control.updatePointRatio();
         e.editor.clearDragHandler();
     }

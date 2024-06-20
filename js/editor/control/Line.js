@@ -1,12 +1,15 @@
-import {Control} from "./Control.js";
 import {HoverLineRender} from "./render/HoverLineRender.js";
 import {PointPosition} from "./PointPosition.js";
+import {Polygon} from "./Polygon.js";
+import {Point} from "./Point.js";
 
-export class Line extends Control {
+export class Line extends Polygon {
     constructor() {
         super();
-        this._p1 = {x: 0, y: 0};
-        this._p2 = {x: 0, y: 0};
+        this._p1 = new Point(PointPosition.LT);
+        this._p2 = new Point(PointPosition.RB);
+        this.points.push(this.p1);
+        this.points.push(this.p2);
     }
 
     get p1() {
@@ -25,50 +28,15 @@ export class Line extends Control {
     }
 
     updateSelectPosition() {
-        if (this.p1.x > this.p2.x) {
-            this.minPoint.x = this.p2.x;
-            this.maxPoint.x = this.p1.x;
-        } else {
-            this.minPoint.x = this.p1.x;
-            this.maxPoint.x = this.p2.x;
-        }
-
-        if (this.p1.y > this.p2.y) {
-            this.minPoint.y = this.p2.y;
-            this.maxPoint.y = this.p1.y;
-        } else {
-            this.minPoint.y = this.p1.y;
-            this.maxPoint.y = this.p2.y;
-        }
+        super.updateSelectPosition();
     }
 
     move(p) {
-        this.p1.x += p.x;
-        this.p1.y += p.y;
-        this.p2.x += p.x;
-        this.p2.y += p.y;
+        super.move(p);
     }
 
     resize(resizeType, p) {
-        switch (resizeType) {
-            case PointPosition.LT:
-                this.p1.x += p.x;
-                this.p1.y += p.y;
-                console.log('left top resize', p);
-                break;
-            case PointPosition.RT:
-                this.p2.x += p.x;
-                this.p1.y += p.y;
-                break;
-            case PointPosition.RB:
-                this.p2.x += p.x;
-                this.p2.y += p.y;
-                break;
-            case PointPosition.LB:
-                this.p1.x += p.x;
-                this.p2.y += p.y;
-                break;
-        }
+        super.resize(resizeType, p);
     }
 
     render(painter) {

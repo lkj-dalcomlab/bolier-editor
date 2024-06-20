@@ -13,153 +13,161 @@ export class Polygon extends Control {
 
     resize(resizeType, p) {
         this._points.forEach(p_=> {
-            // p_.x += p.x * p_.xRatio;
-            // p_.y += p.y * p_.yRatio;
-
             switch (resizeType) {
                 case PointPosition.LT:
-                    // this.#resizePoint(p, p_, PointPosition.RB,
-                    //     [PointPosition.L,
-                    //                 PointPosition.B,
-                    //                 PointPosition.LB],
-                    //     [PointPosition.R,
-                    //                 PointPosition.T,
-                    //                 PointPosition.RT]);
-
-                    switch (p_.position) {
-                        case PointPosition.RB:
-                            return;
-                        case PointPosition.LT:
-                            p_.x += p.x;
-                            p_.y += p.y;
-                            break;
-                        case PointPosition.R:
-                            p_.x += p.x;
-                            p_.y += p.y * p_.yRatio;
-                            break;
-                        case PointPosition.T:
-                            p_.x += p.x * p_.xRatio;
-                            p_.y += p.y;
-                            break;
-                        case PointPosition.RT:
-                            p_.y += p.y;
-                            break;
-                        case PointPosition.L:
-                            p_.x += p.x;
-                            p_.y += p.y * p_.yRatio;
-                            break;
-                        case PointPosition.B:
-                            p_.x += p.x * p_.xRatio;
-                            p_.y += p.y;
-                            break;
-                        case PointPosition.LB:
-                            p_.x += p.x;
-                            break;
-                        default:
-                            p_.x += p.x * p_.xRatio;
-                            p_.y += p.y * p_.yRatio;
-                            break;
-                    }
-                    // if (p_.position === PointPosition.RB) {
-                    //     return;
-                    // }
-                    //
-                    // if (p_.position === PointPosition.R ||
-                    //     p_.position === PointPosition.T ||
-                    //     p_.position === PointPosition.RT) {
-                    //     p_.y += p.y;
-                    // } else if (p_.position === PointPosition.L ||
-                    //             p_.position === PointPosition.B ||
-                    //             p_.position === PointPosition.LB) {
-                    //     p_.x += p.x;
-                    // } else {
-                    //     p_.x += p.x;
-                    //     p_.y += p.y;
-                    // }
+                    this.#resizeLeftTop(p, p_);
                     break;
                 case PointPosition.RT:
-                    if (p_.position === PointPosition.LB) {
-                        return;
-                    }
-
-                    if (p_.position === PointPosition.L ||
-                        p_.position === PointPosition.T ||
-                        p_.position === PointPosition.LT) {
-                        p_.y += p.y;
-                    } else if (p_.position === PointPosition.R ||
-                                p_.position === PointPosition.B ||
-                                p_.position === PointPosition.RB) {
-                        p_.x += p.x;
-                    } else {
-                        p_.x += p.x;
-                        p_.y += p.y;
-                    }
+                    this.#resizeRightTop(p, p_);
                     break;
                 case PointPosition.RB:
-                    if (p_.position === PointPosition.LT) {
-                        return;
-                    }
-
-                    if (p_.position === PointPosition.L ||
-                        p_.position === PointPosition.B ||
-                        p_.position === PointPosition.LB) {
-                        p_.y += p.y;
-                    } else if (p_.position === PointPosition.R ||
-                                p_.position === PointPosition.T ||
-                                p_.position === PointPosition.RT) {
-                        p_.x += p.x;
-                    } else {
-                        p_.x += p.x;
-                        p_.y += p.y;
-                    }
+                    this.#resizeRightBottom(p, p_);
                     break;
                 case PointPosition.LB:
-                    if (p_.position === PointPosition.RT) {
-                        return;
-                    }
-
-                    if (p_.position === PointPosition.R ||
-                        p_.position === PointPosition.B ||
-                        p_.position === PointPosition.RB) {
-                        p_.y += p.y;
-                    } else if (p_.position === PointPosition.L ||
-                                p_.position === PointPosition.T ||
-                                p_.position === PointPosition.LT) {
-                        p_.x += p.x;
-                    } else {
-                        p_.x += p.x;
-                        p_.y += p.y;
-                    }
+                    this.#resizeLeftBottom(p, p_);
                     break;
             }
         });
     }
 
-    #resizePoint(p1, p2, returnPosition, xPositions, yPositions) {
-        if (p2.position === returnPosition) {
-            return;
-        }
+    #resizeLeftTop(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.RB:
+                return;
+            case PointPosition.LT:
+                p2.x += p1.x;
+                p2.y += p1.y;
+                break;
 
-        if (p2.position === xPositions[0] || p2.position === xPositions[1]) {
-            p2.x += p1.x * p2.xRatio;
-            p2.y += p1.y * p2.yRatio;
-            return;
-        } else if (p2.position === xPositions[2]) {
-            p2.x += p1.x;
-            return;
-        }
+            case PointPosition.LB:
+                p2.x += p1.x;
+                break;
+            case PointPosition.RT:
+                p2.y += p1.y;
+                break;
 
-        if (p2.position === yPositions[0] || p2.position === yPositions[1]) {
-            p2.x += p1.x * p2.xRatio;
-            p2.y += p1.y * p2.yRatio;
-            return;
-        } else if (p2.position === yPositions[2]) {
-            p2.y += p1.y;
-            return;
-        }
+            case PointPosition.T:
+                p2.y += p1.y;
+            case PointPosition.B:
+                p2.x += p1.x * p2.xRatio;
+                break;
 
-        p2.x += p1.x;
-        p2.y += p1.y;
+            case PointPosition.L:
+                p2.x += p1.x;
+            case PointPosition.R:
+                p2.y += p1.y * p2.yRatio;
+                break;
+
+            default:
+                p2.x += p1.x * p2.xRatio;
+                p2.y += p1.y * p2.yRatio;
+                break;
+        }
+    }
+
+    #resizeRightTop(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.LB:
+                return;
+            case PointPosition.RT:
+                p2.x += p1.x;
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.RB:
+                p2.x += p1.x;
+                break;
+            case PointPosition.LT:
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.T:
+                p2.y += p1.y;
+            case PointPosition.B:
+                p2.x += p1.x * p2.xRatio;
+                break;
+
+            case PointPosition.R:
+                p2.x += p1.x;
+            case PointPosition.L:
+                p2.y += p1.y * p2.yRatio;
+                break;
+
+            default:
+                p2.x += p1.x * p2.xRatio;
+                p2.y += p1.y * p2.yRatio;
+                break;
+        }
+    }
+
+    #resizeRightBottom(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.LT:
+                return;
+            case PointPosition.RB:
+                p2.x += p1.x;
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.RT:
+                p2.x += p1.x;
+                break;
+            case PointPosition.LB:
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.B:
+                p2.y += p1.y;
+            case PointPosition.T:
+                p2.x += p1.x * p2.xRatio;
+                break;
+
+            case PointPosition.R:
+                p2.x += p1.x;
+            case PointPosition.L:
+                p2.y += p1.y * p2.yRatio;
+                break;
+
+            default:
+                p2.x += p1.x * p2.xRatio;
+                p2.y += p1.y * p2.yRatio;
+                break;
+        }
+    }
+
+    #resizeLeftBottom(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.RT:
+                return;
+            case PointPosition.LB:
+                p2.x += p1.x;
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.LT:
+                p2.x += p1.x;
+                break;
+            case PointPosition.RB:
+                p2.y += p1.y;
+                break;
+
+            case PointPosition.B:
+                p2.y += p1.y;
+            case PointPosition.T:
+                p2.x += p1.x * p2.xRatio;
+                break;
+
+            case PointPosition.L:
+                p2.x += p1.x;
+            case PointPosition.R:
+                p2.y += p1.y * p2.yRatio;
+                break;
+
+            default:
+                p2.x += p1.x * p2.xRatio;
+                p2.y += p1.y * p2.yRatio;
+                break;
+        }
     }
 
     updateSelectPosition() {
@@ -176,6 +184,30 @@ export class Polygon extends Control {
             this.minPoint.y = Math.min(this.minPoint.y, p_.y);
             this.maxPoint.x = Math.max(this.maxPoint.x, p_.x);
             this.maxPoint.y = Math.max(this.maxPoint.y, p_.y);
+        });
+    }
+
+    updatePointPosition() {
+        this.points.forEach(p => {
+            if (p.x === this.minPoint.x && p.y === this.minPoint.y) {
+                p.position = PointPosition.LT;
+            } else if (p.x === this.maxPoint.x && p.y === this.maxPoint.y) {
+                p.position = PointPosition.RB;
+            } else if (p.x === this.maxPoint.x && p.y === this.minPoint.y) {
+                p.position = PointPosition.RT;
+            } else if (p.x === this.minPoint.x && p.y === this.maxPoint.y) {
+                p.position = PointPosition.LB;
+            } else if (p.x === this.minPoint.x) {
+                p.position = PointPosition.L;
+            } else if (p.x === this.maxPoint.x) {
+                p.position = PointPosition.R;
+            } else if (p.y === this.minPoint.y) {
+                p.position = PointPosition.T;
+            } else if (p.y === this.maxPoint.y) {
+                p.position = PointPosition.B;
+            } else {
+                p.position = PointPosition.NONE;
+            }
         });
     }
 

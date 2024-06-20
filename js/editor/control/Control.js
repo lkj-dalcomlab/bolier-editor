@@ -86,6 +86,12 @@ export class Control {
     updateSelectPosition() {
     }
 
+    updatePointPosition() {
+    }
+
+    updatePointRatio() {
+    }
+
     move(p) {
     }
 

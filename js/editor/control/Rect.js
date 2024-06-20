@@ -43,27 +43,6 @@ export class Rect extends Polygon {
 
     resize(resizeType, p) {
         super.resize(resizeType, p);
-        // if (resizeType === PointPosition.LT) {
-        //     this.lt.x += p.x;
-        //     this.lt.y += p.y;
-        //     this.rt.y += p.y;
-        //     this.lb.x += p.x;
-        // } else if (resizeType === PointPosition.RT) {
-        //     this.rt.x += p.x;
-        //     this.rt.y += p.y;
-        //     this.lt.y += p.y;
-        //     this.rb.x += p.x;
-        // } else if (resizeType === PointPosition.RB) {
-        //     this.rb.x += p.x;
-        //     this.rb.y += p.y;
-        //     this.lb.y += p.y;
-        //     this.rt.x += p.x;
-        // } else {
-        //     this.lb.x += p.x;
-        //     this.lb.y += p.y;
-        //     this.lt.x += p.x;
-        //     this.rb.y += p.y;
-        // }
     }
 
     setPosition(p) {
