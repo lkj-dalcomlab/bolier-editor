@@ -6,6 +6,7 @@ const MIN_DPR = 0.1;
 export class Page {
     constructor(ctx) {
         this.ctx = ctx;
+        this.ctx.canvas.cursor = 'move';
         this._painter = new Painter(ctx);
         this._coordinate = new Coordinate();
         this._controls = [];
@@ -47,6 +48,10 @@ export class Page {
         return this._painter;
     }
 
+    setCursor(cursor) {
+        this.ctx.canvas.style.cursor = cursor;
+    }
+
     get coordinate() {
         return this._coordinate;
     }
@@ -70,7 +75,7 @@ export class Page {
             control.render(this.painter);
         });
         this.hoverControl?.render(this.painter);
-        this.selectControl?.render(this.ctx);
+        this.selectControl?.render(this.painter);
     }
 
     captureRender() {

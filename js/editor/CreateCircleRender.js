@@ -1,13 +1,12 @@
-import {ControlRender} from "./control/ControlRender.js";
+import {ControlRender} from "./control/render/ControlRender.js";
 
 export class CreateCircleRender extends ControlRender {
     constructor(circle) {
-        super();
-        this.circle = circle;
+        super(circle);
     }
 
     render(painter) {
-        const circle = this.circle;
+        const circle = this.control;
         painter.start();
         painter.lineOption(circle.lineColor, circle.lineWidth, 0.5);
         painter.drawCircle(circle);

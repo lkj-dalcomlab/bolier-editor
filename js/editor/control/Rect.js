@@ -1,14 +1,16 @@
 import {Polygon} from "./Polygon.js";
 import {HEIGHT, WIDTH} from "./Control.js";
 import {HoverRectRender} from "./render/HoverRectRender.js";
+import {PointPosition} from "./PointPosition.js";
+import {Point} from "./Point.js";
 
 export class Rect extends Polygon {
     constructor() {
         super();
-        this._lt = { x:0, y:0 };
-        this._rt = { x:0, y:0 };
-        this._rb = { x:0, y:0 };
-        this._lb = { x:0, y:0 };
+        this._lt = new Point(PointPosition.LT);
+        this._rt = new Point(PointPosition.RT);
+        this._rb = new Point(PointPosition.RB);
+        this._lb = new Point(PointPosition.LB);
         this.points.push(this._lt);
         this.points.push(this._rt);
         this.points.push(this._rb);
@@ -31,19 +33,16 @@ export class Rect extends Polygon {
         return this._lb;
     }
 
-    get width() {
-        return this._rt.x - this._lt.x;
-    }
-
-    get height() {
-        return this._lt.y - this._lb.y;
+    updateSelectPosition() {
+        super.updateSelectPosition();
     }
 
     move(p) {
-        this.points.forEach(pt => {
-            pt.x += p.x;
-            pt.y += p.y;
-        });
+        super.move(p);
+    }
+
+    resize(resizeType, p) {
+        super.resize(resizeType, p);
     }
 
     setPosition(p) {
@@ -73,8 +72,5 @@ export class Rect extends Polygon {
             return new HoverRectRender(this);
         }
         return null;
-    }
-
-    ptInSelectControl(p) {
     }
 }

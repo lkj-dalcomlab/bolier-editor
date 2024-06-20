@@ -1,13 +1,13 @@
 import {Command} from "./Command.js";
-import {PageEventHandler} from "../event/PageEventHandler.js";
 import {SelectEventHandler} from "../event/SelectEventHandler.js";
+import {PageZoomEventHandler} from "../event/PageZoomEventHandler.js";
 
 export class DefaultCommand extends Command {
     constructor(editor) {
         super();
         this.editor = editor;
         this.handlers = [];
-        this.handlers.push(new PageEventHandler());
+        this.handlers.push(new PageZoomEventHandler());
         this.handlers.push(new SelectEventHandler());
     }
 

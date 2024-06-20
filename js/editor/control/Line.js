@@ -1,11 +1,15 @@
-import {Control} from "./Control.js";
 import {HoverLineRender} from "./render/HoverLineRender.js";
+import {PointPosition} from "./PointPosition.js";
+import {Polygon} from "./Polygon.js";
+import {Point} from "./Point.js";
 
-export class Line extends Control {
+export class Line extends Polygon {
     constructor() {
         super();
-        this._p1 = {x: 0, y: 0};
-        this._p2 = {x: 0, y: 0};
+        this._p1 = new Point(PointPosition.LT);
+        this._p2 = new Point(PointPosition.RB);
+        this.points.push(this.p1);
+        this.points.push(this.p2);
     }
 
     get p1() {
@@ -23,11 +27,16 @@ export class Line extends Control {
         this.p2.y = p.y + 50;
     }
 
+    updateSelectPosition() {
+        super.updateSelectPosition();
+    }
+
     move(p) {
-        this.p1.x += p.x;
-        this.p1.y += p.y;
-        this.p2.x += p.x;
-        this.p2.y += p.y;
+        super.move(p);
+    }
+
+    resize(resizeType, p) {
+        super.resize(resizeType, p);
     }
 
     render(painter) {
@@ -58,5 +67,6 @@ export class Line extends Control {
     }
 
     ptInSelectControl(p) {
+        return super.ptInSelectControl(p);
     }
 }

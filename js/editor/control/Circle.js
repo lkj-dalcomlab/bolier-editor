@@ -1,32 +1,30 @@
-import {Control, HEIGHT, WIDTH} from "./Control.js";
 import {HoverCircleRender} from "./render/HoverCircleRender.js";
+import {PointPosition} from "./PointPosition.js";
+import {Rect} from "./Rect.js";
 
-export class Circle extends Control {
+export class Circle extends Rect {
     constructor() {
         super();
-        this._p = { x:0, y:0 };
-        this._xRadius = WIDTH/2;
-        this._yRadius = HEIGHT/2;
     }
 
     get p() {
-        return this._p;
+        return {x: (this.rb.x + this.lt.x)/2, y: (this.rb.y + this.lt.y)/2};
     }
 
     get xRadius() {
-        return this._xRadius;
-    }
-
-    set xRadius(value) {
-        this._xRadius = value;
+        return Math.abs(this.rb.x - this.lt.x)/2;
     }
 
     get yRadius() {
-        return this._yRadius;
+        return Math.abs(this.rb.y - this.lt.y)/2;
     }
 
-    set yRadius(value) {
-        this._yRadius = value;
+    resize(resizeType, p) {
+        super.resize(resizeType, p);
+    }
+
+    updateSelectPosition() {
+        super.updateSelectPosition();
     }
 
     move(p) {
@@ -34,8 +32,7 @@ export class Circle extends Control {
     }
 
     setPosition(p) {
-        this.p.x = p.x + WIDTH/2;
-        this.p.y = p.y + HEIGHT/2;
+        super.setPosition(p);
     }
 
     render(painter) {
@@ -64,6 +61,6 @@ export class Circle extends Control {
     }
 
     ptInSelectControl(p) {
-        super.ptInSelectControl(p);
+        return super.ptInSelectControl(p);
     }
 }

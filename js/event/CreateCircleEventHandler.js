@@ -23,17 +23,19 @@ export class CreateCircleEventHandler extends EventHandler {
         if (!e.down) {
             this.circle.setPosition(e.point);
         } else {
-            const p1 = e.downPoint;
-            const p2 = e.point;
+            this.circle.lt.x = e.downPoint.x;
+            this.circle.lt.y = e.downPoint.y;
 
-            const width = p2.x - p1.x;
-            const height = p2.y - p1.y;
-            const p = { x: p1.x + width / 2, y: p1.y + height / 2};
-            this.circle.p.x = p.x;
-            this.circle.p.y = p.y;
-            this.circle.xRadius = Math.abs(width) / 2;
-            this.circle.yRadius = Math.abs(height) / 2;
+            this.circle.rt.x = e.point.x;
+            this.circle.rt.y = e.downPoint.y;
+
+            this.circle.rb.x = e.point.x;
+            this.circle.rb.y = e.point.y;
+
+            this.circle.lb.x = e.downPoint.x;
+            this.circle.lb.y = e.point.y;
         }
+        console.log(this.circle.xRadius, this.circle.yRadius);
         this.editor.render();
     }
 
