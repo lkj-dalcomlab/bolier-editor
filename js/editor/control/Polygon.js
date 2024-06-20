@@ -212,9 +212,6 @@ export class Polygon extends Control {
     }
 
     updatePointRatio() {
-        this.width = this.maxPoint.x - this.minPoint.x;
-        this.height = this.maxPoint.y - this.minPoint.y;
-
         this._points.forEach(p_=> {
             const curWidth = p_.x - this.minPoint.x;
             const curHeight = p_.y - this.minPoint.y;

@@ -1,4 +1,4 @@
-import {ControlRender} from "./control/render/ControlRender.js";
+import {ControlRender} from "./ControlRender.js";
 
 export class CreateCircleRender extends ControlRender {
     constructor(circle) {
