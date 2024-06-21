@@ -23,9 +23,12 @@ export class Editor {
     }
 
     #init(root) {
+        const toolbarWrap = document.createElement('div');
+        toolbarWrap.className = 'flex w-52 m-2';
         const toolbar = document.createElement('div');
-        toolbar.className = 'toolbar';
-        root.appendChild(toolbar);
+        toolbar.id = 'toolbar';
+        toolbarWrap.appendChild(toolbar);
+        root.appendChild(toolbarWrap);
         root.appendChild(this.canvas);
 
         this.page.render();
@@ -58,19 +61,22 @@ export class Editor {
     }
 
     #createToolbar(toolbar) {
-        const lineBtn = this.#createButton('draw line', () => {
+        toolbar.className =
+            'pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
+            'shadow-sm bg-background text-foreground relative gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        const lineBtn = this.#createButton('./icon/line.png', 'Q', () => {
             this._tools.createLine();
         });
-        const rectBtn = this.#createButton('draw rect', () => {
+        const rectBtn = this.#createButton('./icon/rect.png', 'W', () => {
             this._tools.createRect();
         });
-        const triangleBtn = this.#createButton('draw triangle', () => {
+        const triangleBtn = this.#createButton('./icon/triangle.png', 'E', () => {
             this._tools.createTriangle();
         });
-        const circleBtn = this.#createButton('draw circle', () => {
+        const circleBtn = this.#createButton('./icon/circle.png', 'R', () => {
             this._tools.createCircle();
         });
-        const imageBtn = this.#createButton('insert image', () => {
+        const imageBtn = this.#createButton('./icon/image.png', 'T', () => {
             this._tools.createImage();
         });
         toolbar.appendChild(lineBtn);
@@ -80,11 +86,26 @@ export class Editor {
         toolbar.appendChild(imageBtn);
     }
 
-    #createButton(text, clickEvent) {
+    #createButton(imgSrc, shortCutKey, clickEvent) {
+        const btnWrap = document.createElement('div');
+        btnWrap.className = 'relative flex item-center justify-center mr-1';
+
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.className = 'w-5 h-5 mr-2';
+
         const btn = document.createElement('button');
-        btn.textContent = text;
+        btn.className = 'w-8 h-8 inline-flex items-center justify-center';
         btn.addEventListener('click', clickEvent);
-        return btn;
+
+        const shortcutBtn = document.createElement('div');
+        shortcutBtn.className = 'w-2 h-3 items-center justify-center absolute right-0 bottom-0 text-[8px] opacity-40';
+        shortcutBtn.textContent = shortCutKey;
+
+        btn.appendChild(img);
+        btnWrap.appendChild(btn);
+        btnWrap.appendChild(shortcutBtn);
+        return btnWrap;
     }
 
     capture() {
