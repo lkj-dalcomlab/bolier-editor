@@ -84,6 +84,11 @@ export class Editor {
         toolbar.appendChild(triangleBtn);
         toolbar.appendChild(circleBtn);
         toolbar.appendChild(imageBtn);
+
+        const seperator = document.createElement('div');
+        seperator.className = 'shrink-0 bg-border h-full w-[1px] dark:bg-gray-300';
+        seperator.role = 'none';
+        toolbar.appendChild(seperator);
     }
 
     #createButton(imgSrc, shortCutKey, clickEvent) {
@@ -95,7 +100,7 @@ export class Editor {
         img.className = 'w-5 h-5 mr-2';
 
         const btn = document.createElement('button');
-        btn.className = 'w-8 h-8 inline-flex items-center justify-center';
+        btn.className = 'w-8 h-8 inline-flex items-center justify-center rounded hover:bg-slate-200';
         btn.addEventListener('click', clickEvent);
 
         const shortcutBtn = document.createElement('div');
