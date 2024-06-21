@@ -85,7 +85,6 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onKeyDown(e) {
-        console.log(e.originEvent.key);
     }
 
     onKeyUp(e) {
