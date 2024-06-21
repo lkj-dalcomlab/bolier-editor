@@ -1,10 +1,10 @@
 import {Event} from './Event.js'
-import {MouseSnapEventHandler} from "./MouseSnapEventHandler.js";
+import {DefaultEventHandler} from "./DefaultEventHandler.js";
 
 export class EventManager {
     constructor(editor) {
         this.event = new Event(editor);
-        this.handler = new MouseSnapEventHandler();
+        this.handler = new DefaultEventHandler();
         this.handlers = new Map();
         this.dragHandler = null;
     }
@@ -81,7 +81,8 @@ export class EventManager {
         this.#setEvent(e);
         this.handler.onMouseWheel(this.event);
         if (this.dragHandler !== null) {
-            retuthis.eventn;
+            this.dragHandler.onMouseWheel(this.event);
+            return;
         }
 
         this.handlers.forEach(h => {

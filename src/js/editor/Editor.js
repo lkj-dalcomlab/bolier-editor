@@ -19,6 +19,7 @@ export class Editor {
         // this._undoManager = new UndoManager();
 
         const root = document.getElementById(id);
+        root.className = 'm-5';
         this.#init(root);
     }
 
