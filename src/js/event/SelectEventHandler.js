@@ -5,10 +5,12 @@ import {MoveControlEventHandler} from "./drag/MoveControlEventHandler.js";
 import {CursorType} from "../editor/CursorType.js";
 import {PointPosition} from "../editor/control/PointPosition.js";
 import {ResizeControlEventHandler} from "./drag/ResizeControlEventHandler.js";
+import {ToolbarUtil} from "../editor/ToolbarUtil.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
         super();
+        this.toolbarUtil = new ToolbarUtil();
     }
 
     get type() {
@@ -32,21 +34,24 @@ export class SelectEventHandler extends EventHandler {
             }
         }
 
+        page.selectControl = render;
         if (render === null) {
+            this.toolbarUtil.hideLineOptionToolbar()
             e.editor.setDragHandler(new DragPageEventHandler());
-            page.selectControl = null;
-            return;
         }
 
-        e.editor.setDragHandler(new MoveControlEventHandler());
-
-        page.selectControl = render;
         page.render();
     }
 
     onMouseMove(e) {
         const page = e.editor.page;
         page.coordinate.curPoint = {x: e.originEvent.offsetX, y: e.originEvent.offsetY};
+
+        if (e.down && page.selectControl != null) {
+            page.setCursor(CursorType.MOVE);
+            e.editor.setDragHandler(new MoveControlEventHandler());
+            return;
+        }
 
         let render = null;
         const controls = page.controls;
@@ -79,6 +84,12 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
+        const page = e.editor.page;
+        if (page.selectControl === null) {
+            return;
+        }
+
+        this.toolbarUtil.showLineOptionToolbar();
     }
 
     onMouseWheel(e) {

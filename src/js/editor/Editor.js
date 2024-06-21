@@ -4,10 +4,16 @@ import {Tools} from "../Tools.js";
 
 export class Editor {
     constructor(id, {width, height}) {
+        const root = document.getElementById(id);
+        root.className = 'm-5';
+
+
         this.canvas = document.createElement('canvas');
         this.canvas.style.border = 'solid 2px #000';
         this.canvas.width = width;
         this.canvas.height = height;
+
+        root.appendChild(this.#createLineOptionToolbar());
 
         this.ctx = this.canvas.getContext('2d');
         this.page = new Page(this.ctx);
@@ -18,8 +24,6 @@ export class Editor {
 
         // this._undoManager = new UndoManager();
 
-        const root = document.getElementById(id);
-        root.className = 'm-5';
         this.#init(root);
     }
 
@@ -90,6 +94,23 @@ export class Editor {
         seperator.className = 'shrink-0 bg-border h-full w-[1px] dark:bg-gray-300';
         seperator.role = 'none';
         toolbar.appendChild(seperator);
+    }
+
+    #createLineOptionToolbar() {
+        const lineToolbar = document.createElement('div');
+        lineToolbar.id = 'line-option';
+        lineToolbar.className =
+            'hidden pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
+            'shadow-sm bg-background text-foreground absolute gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        const lineWidthBtn = this.#createButton('./icon/line_width.png', '', () => {
+        });
+        lineToolbar.appendChild(lineWidthBtn);
+        lineToolbar.hidden = true;
+
+        const lineWidthToolbar = document.createElement('div');
+        lineWidthToolbar.className = 'hidden pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
+            'shadow-sm bg-background text-foreground absolute gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        return lineToolbar;
     }
 
     #createButton(imgSrc, shortCutKey, clickEvent) {
