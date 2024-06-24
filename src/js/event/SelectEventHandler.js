@@ -10,7 +10,6 @@ import {ToolbarUtil} from "../editor/ToolbarUtil.js";
 export class SelectEventHandler extends EventHandler {
     constructor() {
         super();
-        this.toolbarUtil = new ToolbarUtil();
     }
 
     get type() {
@@ -21,7 +20,7 @@ export class SelectEventHandler extends EventHandler {
         const page = e.editor.page;
 
         if (page.selectControl !== null && page.selectControl.resizeType !== PointPosition.NONE) {
-            e.editor.setDragHandler(new ResizeControlEventHandler());
+            e.editor.startDragHandler(new ResizeControlEventHandler());
             return;
         }
 
@@ -36,8 +35,8 @@ export class SelectEventHandler extends EventHandler {
 
         page.selectControl = render;
         if (render === null) {
-            this.toolbarUtil.hideLineOptionToolbar()
-            e.editor.setDragHandler(new DragPageEventHandler());
+            ToolbarUtil.getInstance().hideLineOptionToolbar()
+            e.editor.startDragHandler(new DragPageEventHandler());
         }
 
         page.render();
@@ -49,7 +48,7 @@ export class SelectEventHandler extends EventHandler {
 
         if (e.down && page.selectControl != null) {
             page.setCursor(CursorType.MOVE);
-            e.editor.setDragHandler(new MoveControlEventHandler());
+            e.editor.startDragHandler(new MoveControlEventHandler());
             return;
         }
 
@@ -70,7 +69,7 @@ export class SelectEventHandler extends EventHandler {
                 page.setCursor(CursorType.LT_RB);
             } else if (resizeType === PointPosition.RT || resizeType === PointPosition.LB) {
                 page.setCursor(CursorType.RT_LB);
-            } else if (render !== null){
+            } else if (render !== null && page.selectControl.control === render.control) {
                 page.setCursor(CursorType.MOVE);
             } else {
                 page.setCursor(CursorType.DEFAULT);
@@ -89,7 +88,7 @@ export class SelectEventHandler extends EventHandler {
             return;
         }
 
-        this.toolbarUtil.showLineOptionToolbar();
+        ToolbarUtil.getInstance().showLineOptionToolbar({ x: e.originEvent.offsetX, y: e.originEvent.offsetY });
     }
 
     onMouseWheel(e) {

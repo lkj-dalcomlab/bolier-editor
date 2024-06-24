@@ -4,6 +4,7 @@ export class Event {
         this._down = false;
         this._downPoint = {x: 0, y: 0};
         this._point = {x: 0, y: 0};
+        this._originPoint = {x: 0, y: 0};
         this._curPoint = {x: 0, y: 0};
         this._originEvent = null;
 
@@ -42,6 +43,14 @@ export class Event {
     set point(p) {
         this._point = p.x;
         this._point = p.y;
+    }
+
+    get originPoint() {
+        return this._originPoint;
+    }
+
+    set originPoint(value) {
+        this._originPoint = value;
     }
 
     get curPoint() {
