@@ -232,7 +232,7 @@ export class Polygon extends Control {
         const ctx = painter.ctx;
 
         painter.start();
-        painter.lineOption(this.lineColor, this.lineWidth);
+        painter.lineOption(this.lineColor, this.lineWidth, 1, this.lineStyle);
 
         ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; ++i) {

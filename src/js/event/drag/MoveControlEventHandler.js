@@ -17,6 +17,6 @@ export class MoveControlEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        e.editor.clearDragHandler();
+        e.editor.finishDragHandler();
     }
 }

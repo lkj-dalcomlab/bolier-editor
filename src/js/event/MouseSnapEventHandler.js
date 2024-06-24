@@ -41,9 +41,13 @@ export class MouseSnapEventHandler extends EventHandler {
         const coordinate = e.editor.page.coordinate;
         const dpr = coordinate.dpr;
         const point = e.point;
+        const originPoint = e.originPoint;
 
-        point.x = e.originEvent.offsetX / dpr;
-        point.y = e.originEvent.offsetY / dpr;
+        originPoint.x = e.originEvent.offsetX;
+        originPoint.y = e.originEvent.offsetY;
+
+        point.x = originPoint.x / dpr;
+        point.y = originPoint.y / dpr;
 
         const dprOrigin = {x: coordinate.orgPoint.x / dpr, y: coordinate.orgPoint.y / dpr};
         const wX = -coordinate.wayPoint.x - dprOrigin.x;

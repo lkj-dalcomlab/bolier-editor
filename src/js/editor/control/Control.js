@@ -2,6 +2,7 @@ import {SelectControlRender} from "./render/SelectControlRender.js";
 import {SelectionRect} from "./SelectionRect.js";
 import {ControlUtil} from "./ControlUtil.js";
 import {PointPosition} from "./PointPosition.js";
+import {LineStyle} from "./LineStyle.js";
 
 export const WIDTH = 50;
 export const HEIGHT = 50;
@@ -9,6 +10,7 @@ export class Control {
     constructor() {
         this._lineWidth = 1;
         this._lineColor = 'black';
+        this._lineStyle = LineStyle.SOLID;
         this._fillColor = 'rgb(189,246,197)';
         this._select = false;
         this._hover = false;
@@ -31,6 +33,14 @@ export class Control {
 
     set lineColor(value) {
         this._lineColor = value;
+    }
+
+    get lineStyle() {
+        return this._lineStyle;
+    }
+
+    set lineStyle(value) {
+        this._lineStyle = value;
     }
 
     get fillColor() {

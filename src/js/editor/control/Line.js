@@ -40,7 +40,7 @@ export class Line extends Polygon {
     }
 
     render(painter) {
-        painter.drawLine(this.p1, this.p2, this.lineColor, this.lineWidth);
+        painter.drawLine(this.p1, this.p2, this.lineColor, this.lineWidth, 1, this.lineStyle);
     }
 
     ptInControl(p) {
