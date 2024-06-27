@@ -1,3 +1,9 @@
+export const ToolbarPosition = {
+    TOOLBAR_TOP : -50,
+    LINE_WIDTH_LEFT : -30,
+    LINE_STYLE_LEFT : 10,
+    LINE_COLOR_LEFT : 60,
+}
 export class ToolbarUtil {
     static instance;
     constructor() {
@@ -47,35 +53,22 @@ export class ToolbarUtil {
         this.lineColorToolbar.classList.remove('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineWidthToolbar.classList.add('hidden');
-        this.#checkTagPosition(this.lineColorToolbar);
+        this.#checkTagPosition(this.lineColorToolbar, ToolbarPosition.LINE_COLOR_LEFT);
     }
 
-    static #checkTagPosition(tag) {
+    static #checkTagPosition(tag, tagLeft) {
         const rect = tag.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        console.log(window.innerWidth, document.documentElement.clientWidth)
         const windowWidth = window.innerWidth || document.documentElement.clientWidth;
 
-        if (rect.top < 0) {
-            console.log('top 범위를 벗어났습니다.');
-        } else if (rect.bottom > windowHeight) {
-            console.log('bottom 범위를 벗어났습니다.');
+        const gap = rect.right - windowWidth;
+        let left = tag.style.left.replace("px", "");
+        if (gap >= 0) {
+            left = left - gap;
+            tag.style.left = left + 'px';
+        } else {
+            tag.style.left = tagLeft + 'px';
         }
-
-        if (rect.left < 0) {
-            console.log('left 범위를 벗어났습니다.');
-        } else if (rect.right > windowWidth) {
-            const gap = rect.right - windowWidth;
-            const left = rect.left - gap;
-            tag.style.left = left;
-            console.log('right[' + gap + ' 범위를 벗어났습니다.');
-        }
-
-        const outOfView = (
-            rect.top < 0 ||
-            rect.left < 0 ||
-            rect.bottom > windowHeight ||
-            rect.right > windowWidth
-        );
     }
 
     static clear() {

@@ -728,12 +728,28 @@ video {
   padding: 0.25rem;
 }
 
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.pb-0\.5 {
+  padding-bottom: 0.125rem;
+}
+
 .pl-3 {
   padding-left: 0.75rem;
 }
 
 .pr-3 {
   padding-right: 0.75rem;
+}
+
+.pt-0 {
+  padding-top: 0px;
+}
+
+.pt-0\.5 {
+  padding-top: 0.125rem;
 }
 
 .text-\[8px\] {
