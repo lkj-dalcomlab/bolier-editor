@@ -3,6 +3,7 @@ export const ToolbarPosition = {
     LINE_WIDTH_LEFT : -30,
     LINE_STYLE_LEFT : 10,
     LINE_COLOR_LEFT : 60,
+    FILL_COLOR_LEFT : 100,
 }
 export class ToolbarUtil {
     static instance;
@@ -17,17 +18,20 @@ export class ToolbarUtil {
             this.lineWidthToolbar = document.getElementById('line-width');
             this.lineStyleToolbar = document.getElementById('line-style');
             this.lineColorToolbar = document.getElementById('line-color');
+            this.fillColorToolbar = document.getElementById('fill-color');
         }
         return this.instance;
     }
 
-    static showLineOptionToolbar(p) {
+    static showControlOptionToolbar(p) {
         this.lineOptionToolbar.classList.remove('hidden');
         this.lineWidthToolbar.classList.add('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
+        this.fillColorToolbar.classList.add('hidden');
         this.lineOptionToolbar.style.top = p.y + 'px';
         this.lineOptionToolbar.style.left = p.x + 'px';
+        this.#checkTagPosition(this.lineOptionToolbar, p.x);
     }
 
     static hideLineOptionToolbar() {
@@ -35,30 +39,42 @@ export class ToolbarUtil {
         this.lineWidthToolbar.classList.add('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
+        this.fillColorToolbar.classList.add('hidden');
     }
 
     static showLineWidthToolbar() {
         this.lineWidthToolbar.classList.remove('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
+        this.fillColorToolbar.classList.add('hidden');
+        this.#checkTagPosition(this.lineWidthToolbar, ToolbarPosition.LINE_WIDTH_LEFT);
     }
 
     static showLineStyleToolbar() {
         this.lineStyleToolbar.classList.remove('hidden');
         this.lineWidthToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
+        this.fillColorToolbar.classList.add('hidden');
     }
 
     static showLineColorToolbar() {
         this.lineColorToolbar.classList.remove('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineWidthToolbar.classList.add('hidden');
+        this.fillColorToolbar.classList.add('hidden');
         this.#checkTagPosition(this.lineColorToolbar, ToolbarPosition.LINE_COLOR_LEFT);
+    }
+
+    static showFillColorToolbar() {
+        this.fillColorToolbar.classList.remove('hidden');
+        this.lineColorToolbar.classList.add('hidden');
+        this.lineStyleToolbar.classList.add('hidden');
+        this.lineWidthToolbar.classList.add('hidden');
+        this.#checkTagPosition(this.fillColorToolbar, ToolbarPosition.FILL_COLOR_LEFT);
     }
 
     static #checkTagPosition(tag, tagLeft) {
         const rect = tag.getBoundingClientRect();
-        console.log(window.innerWidth, document.documentElement.clientWidth)
         const windowWidth = window.innerWidth || document.documentElement.clientWidth;
 
         const gap = rect.right - windowWidth;
