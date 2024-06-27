@@ -15,7 +15,7 @@ export class Editor {
         this.canvas.width = width;
         this.canvas.height = height;
 
-        root.appendChild(this.#createLineOptionToolbar());
+        root.appendChild(this.#createControlOptionToolbar());
 
         this.ctx = this.canvas.getContext('2d');
         this.page = new Page(this.ctx);
@@ -98,7 +98,7 @@ export class Editor {
         toolbar.appendChild(separator);
     }
 
-    #createLineOptionToolbar() {
+    #createControlOptionToolbar() {
         const lineToolbar = document.createElement('div');
         lineToolbar.id = 'line-option';
         lineToolbar.className =
@@ -115,26 +115,43 @@ export class Editor {
             ToolbarUtil.showLineStyleToolbar();
         });
 
-        const lineColorToolbar = this.#createLineColorToolbar();
+        const lineColorToolbar = this.#createColorToolbar('line-color',
+            {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
+                color => {
+                    this.page.selectControl.control.lineColor = color;
+                }
+        );
         const lineColorBtn = this.#createButton('./icon/line_color.png', '', () => {
             ToolbarUtil.showLineColorToolbar();
+        });
+
+        const fillColorToolbar = this.#createColorToolbar('fill-color',
+            {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
+            color => {
+                this.page.selectControl.control.fillColor = color;
+            }
+        );
+        const fillColorBtn = this.#createButton('./icon/fill_color.png', '', () => {
+            ToolbarUtil.showFillColorToolbar();
         });
 
         lineToolbar.appendChild(lineWidthBtn);
         lineToolbar.appendChild(lineStyleBtn);
         lineToolbar.appendChild(lineColorBtn);
+        lineToolbar.appendChild(fillColorBtn);
 
         lineToolbar.appendChild(lineWidthToolbar);
         lineToolbar.appendChild(lineStyleToolbar);
         lineToolbar.appendChild(lineColorToolbar);
+        lineToolbar.appendChild(fillColorToolbar);
         return lineToolbar;
     }
 
-    #createLineColorToolbar() {
+    #createColorToolbar(id, p, setColor) {
         const lineColorToolbar = document.createElement('div');
-        lineColorToolbar.id = 'line-color';
-        lineColorToolbar.style.left = ToolbarPosition.LINE_COLOR_LEFT + 'px';
-        lineColorToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
+        lineColorToolbar.id = id;
+        lineColorToolbar.style.left = p.x + 'px';
+        lineColorToolbar.style.top = p.y + 'px';
         lineColorToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
             'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
 
@@ -143,7 +160,7 @@ export class Editor {
                                     'rgb(28,138,79)', 'rgb(14,136,224)', 'rgb(134,57,235)'];
         colorSet.forEach(color => {
             const colorBtn = this.#createCircleButton(color, ()=> {
-                this.page.selectControl.control.lineColor = color;
+                setColor(color);
                 this.render();
             });
             lineColorToolbar.appendChild(colorBtn);
@@ -184,11 +201,19 @@ export class Editor {
             'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
 
         for (let i = 1; i <= 5; ++i) {
-            const lineWidth = this.#createButton('./icon/line_width_1.png', '', () => {
+            const lineWidthBtn = document.createElement('button');
+            lineWidthBtn.className = 'w-8 h-8 ml-1 mr-1 pl-1 pr-1 inline-flex items-center justify-center rounded hover:bg-slate-200';
+            lineWidthBtn.addEventListener('click', () => {
                 this.page.selectControl.control.lineWidth = i;
                 this.render();
             });
-            lineWidthToolbar.appendChild(lineWidth);
+            const lineTag = document.createElement('span');
+            lineTag.style.height = '0px';
+            lineTag.style.width = '30px';
+            lineTag.style.borderWidth = i + 'px';
+            lineTag.className = 'border-black';
+            lineWidthBtn.appendChild(lineTag);
+            lineWidthToolbar.appendChild(lineWidthBtn);
         }
 
         return lineWidthToolbar;
