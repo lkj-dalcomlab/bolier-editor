@@ -1,7 +1,7 @@
 import {EventManager} from "../event/EventManager.js";
 import {Page} from "./Page.js";
 import {Tools} from "../Tools.js";
-import {ToolbarUtil} from "./ToolbarUtil.js";
+import {ToolbarPosition, ToolbarUtil} from "./ToolbarUtil.js";
 import {LineStyle} from "./control/LineStyle.js";
 
 export class Editor {
@@ -133,8 +133,8 @@ export class Editor {
     #createLineColorToolbar() {
         const lineColorToolbar = document.createElement('div');
         lineColorToolbar.id = 'line-color';
-        lineColorToolbar.style.left = '60px';
-        lineColorToolbar.style.top = '-50px';
+        lineColorToolbar.style.left = ToolbarPosition.LINE_COLOR_LEFT + 'px';
+        lineColorToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
         lineColorToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
             'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
 
@@ -155,8 +155,8 @@ export class Editor {
     #createLineStyleToolbar() {
         const lineStyleToolbar = document.createElement('div');
         lineStyleToolbar.id = 'line-style';
-        lineStyleToolbar.style.left = '10px';
-        lineStyleToolbar.style.top = '-50px';
+        lineStyleToolbar.style.left = ToolbarPosition.LINE_STYLE_LEFT + 'px';
+        lineStyleToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
         lineStyleToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
             'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
 
@@ -178,8 +178,8 @@ export class Editor {
     #createLineWidthToolbar() {
         const lineWidthToolbar = document.createElement('div');
         lineWidthToolbar.id = 'line-width';
-        lineWidthToolbar.style.left = '-30px';
-        lineWidthToolbar.style.top = '-50px';
+        lineWidthToolbar.style.left = ToolbarPosition.LINE_WIDTH_LEFT + 'px';
+        lineWidthToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
         lineWidthToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
             'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
 
@@ -196,7 +196,7 @@ export class Editor {
 
     #createCircleButton(color, clickEvent) {
         const btnWrap = document.createElement('div');
-        btnWrap.className = 'relative flex item-center justify-center mr-1 rounded hover:bg-slate-200';
+        btnWrap.className = 'relative flex item-center justify-center mr-1 pt-0.5 pb-0.5 rounded-full hover:bg-slate-200';
 
         const btn = document.createElement('button');
         btn.className = 'w-6 h-6 mt-1 mb-1 ml-2 mr-2 inline-flex items-center justify-center rounded-full';
