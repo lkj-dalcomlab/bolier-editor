@@ -1,13 +1,24 @@
 import {EventManager} from "../event/EventManager.js";
 import {Page} from "./Page.js";
 import {Tools} from "../Tools.js";
+import {ToolbarPosition, ToolbarUtil} from "./ToolbarUtil.js";
+import {LineStyle} from "./control/LineStyle.js";
 
+const COMMON_TOOLBAR_STYLE =
+    'hidden pointer-events-auto flex items-center rounded-md border border-slate-300 ' +
+    'shadow-sm bg-background bg-slate-100 text-foreground absolute gap-0.5 p-1'
 export class Editor {
     constructor(id, {width, height}) {
+        const root = document.getElementById(id);
+        root.className = 'm-5';
+
+
         this.canvas = document.createElement('canvas');
         this.canvas.style.border = 'solid 2px #000';
         this.canvas.width = width;
         this.canvas.height = height;
+
+        root.appendChild(this.#createControlOptionToolbar());
 
         this.ctx = this.canvas.getContext('2d');
         this.page = new Page(this.ctx);
@@ -18,8 +29,6 @@ export class Editor {
 
         // this._undoManager = new UndoManager();
 
-        const root = document.getElementById(id);
-        root.className = 'm-5';
         this.#init(root);
     }
 
@@ -86,10 +95,142 @@ export class Editor {
         toolbar.appendChild(circleBtn);
         toolbar.appendChild(imageBtn);
 
-        const seperator = document.createElement('div');
-        seperator.className = 'shrink-0 bg-border h-full w-[1px] dark:bg-gray-300';
-        seperator.role = 'none';
-        toolbar.appendChild(seperator);
+        const separator = document.createElement('div');
+        separator.className = 'shrink-0 bg-border h-full w-[1px] dark:bg-gray-300';
+        separator.role = 'none';
+        toolbar.appendChild(separator);
+    }
+
+    #createControlOptionToolbar() {
+        const lineToolbar = document.createElement('div');
+        lineToolbar.id = 'line-option';
+        lineToolbar.className = COMMON_TOOLBAR_STYLE;
+
+        const lineWidthToolbar = this.#createLineWidthToolbar();
+        const lineWidthBtn = this.#createButton('./icon/line_width.png', '', () => {
+            ToolbarUtil.showLineWidthToolbar();
+        });
+
+        const lineStyleToolbar = this.#createLineStyleToolbar();
+        const lineStyleBtn = this.#createButton('./icon/line_style.png', '', () => {
+            ToolbarUtil.showLineStyleToolbar();
+        });
+
+        const lineColorToolbar = this.#createColorToolbar('line-color',
+            {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
+                color => {
+                    this.page.selectControl.control.lineColor = color;
+                }
+        );
+        lineColorToolbar.classList.add('bg-slate-200');
+        const lineColorBtn = this.#createButton('./icon/line_color.png', '', () => {
+            ToolbarUtil.showLineColorToolbar();
+        });
+
+        const fillColorToolbar = this.#createColorToolbar('fill-color',
+            {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
+            color => {
+                this.page.selectControl.control.fillColor = color;
+            }
+        );
+        fillColorToolbar.classList.add('bg-slate-300');
+        const fillColorBtn = this.#createButton('./icon/fill_color.png', '', () => {
+            ToolbarUtil.showFillColorToolbar();
+        });
+        fillColorBtn.id = 'fill-color-btn';
+
+        lineToolbar.appendChild(lineWidthBtn);
+        lineToolbar.appendChild(lineStyleBtn);
+        lineToolbar.appendChild(lineColorBtn);
+        lineToolbar.appendChild(fillColorBtn);
+
+        lineToolbar.appendChild(lineWidthToolbar);
+        lineToolbar.appendChild(lineStyleToolbar);
+        lineToolbar.appendChild(lineColorToolbar);
+        lineToolbar.appendChild(fillColorToolbar);
+        return lineToolbar;
+    }
+
+    #createColorToolbar(id, p, setColor) {
+        const lineColorToolbar = document.createElement('div');
+        lineColorToolbar.id = id;
+        lineColorToolbar.style.left = p.x + 'px';
+        lineColorToolbar.style.top = p.y + 'px';
+        lineColorToolbar.className = COMMON_TOOLBAR_STYLE;
+
+        const colorSet = ['rgb(255,255,255)', 'rgb(0,0,0)','rgb(113,113,113)',
+                                    'rgb(216,61,27)', 'rgb(236,145,38)', 'rgb(233,186,31)',
+                                    'rgb(28,138,79)', 'rgb(14,136,224)', 'rgb(134,57,235)'];
+        colorSet.forEach(color => {
+            const colorBtn = this.#createCircleButton(color, ()=> {
+                setColor(color);
+                this.render();
+            });
+            lineColorToolbar.appendChild(colorBtn);
+        });
+
+        return lineColorToolbar;
+    }
+
+    #createLineStyleToolbar() {
+        const lineStyleToolbar = document.createElement('div');
+        lineStyleToolbar.id = 'line-style';
+        lineStyleToolbar.style.left = ToolbarPosition.LINE_STYLE_LEFT + 'px';
+        lineStyleToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
+        lineStyleToolbar.className = COMMON_TOOLBAR_STYLE;
+
+        const lineSolid = this.#createButton('./icon/line_width_1.png', '', () => {
+            this.page.selectControl.control.lineStyle = LineStyle.SOLID;
+            this.render();
+        });
+        lineStyleToolbar.appendChild(lineSolid);
+
+        const lineDash = this.#createButton('./icon/line_dash.png', '', () => {
+            this.page.selectControl.control.lineStyle = LineStyle.DASH;
+            this.render();
+        });
+        lineStyleToolbar.appendChild(lineDash);
+
+        return lineStyleToolbar;
+    }
+
+    #createLineWidthToolbar() {
+        const lineWidthToolbar = document.createElement('div');
+        lineWidthToolbar.id = 'line-width';
+        lineWidthToolbar.style.left = ToolbarPosition.LINE_WIDTH_LEFT + 'px';
+        lineWidthToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
+        lineWidthToolbar.className = COMMON_TOOLBAR_STYLE;
+
+        for (let i = 1; i <= 5; ++i) {
+            const lineWidthBtn = document.createElement('button');
+            lineWidthBtn.className = 'w-8 h-8 ml-1 mr-1 pl-1 pr-1 inline-flex items-center justify-center rounded hover:bg-slate-200';
+            lineWidthBtn.addEventListener('click', () => {
+                this.page.selectControl.control.lineWidth = i;
+                this.render();
+            });
+            const lineTag = document.createElement('span');
+            lineTag.style.height = '0px';
+            lineTag.style.width = '30px';
+            lineTag.style.borderWidth = i + 'px';
+            lineTag.className = 'border-black';
+            lineWidthBtn.appendChild(lineTag);
+            lineWidthToolbar.appendChild(lineWidthBtn);
+        }
+
+        return lineWidthToolbar;
+    }
+
+    #createCircleButton(color, clickEvent) {
+        const btnWrap = document.createElement('div');
+        btnWrap.className = 'relative flex item-center justify-center mr-1 pt-0.5 pb-0.5 rounded-full hover:bg-slate-200';
+
+        const btn = document.createElement('button');
+        btn.className = 'w-6 h-6 mt-1 mb-1 ml-2 mr-2 inline-flex items-center justify-center rounded-full';
+        btn.style.backgroundColor = color;
+        btn.addEventListener('click', clickEvent);
+        btnWrap.appendChild(btn);
+
+        return btnWrap;
     }
 
     #createButton(imgSrc, shortCutKey, clickEvent) {
@@ -98,19 +239,24 @@ export class Editor {
 
         const img = document.createElement('img');
         img.src = imgSrc;
-        img.className = 'w-5 h-5 mr-2';
+        img.className = 'w-5 h-5';
 
         const btn = document.createElement('button');
         btn.className = 'w-8 h-8 inline-flex items-center justify-center rounded hover:bg-slate-200';
         btn.addEventListener('click', clickEvent);
 
-        const shortcutBtn = document.createElement('div');
-        shortcutBtn.className = 'w-2 h-3 items-center justify-center absolute right-0 bottom-0 text-[8px] opacity-40';
-        shortcutBtn.textContent = shortCutKey;
-
         btn.appendChild(img);
         btnWrap.appendChild(btn);
-        btnWrap.appendChild(shortcutBtn);
+
+        if (shortCutKey !== '') {
+            img.classList.add('mr-2');
+
+            const shortcutBtn = document.createElement('div');
+            shortcutBtn.className = 'w-2 h-3 items-center justify-center absolute right-0 bottom-0 text-[8px] opacity-40';
+            shortcutBtn.textContent = shortCutKey;
+            btnWrap.appendChild(shortcutBtn);
+        }
+
         return btnWrap;
     }
 
@@ -145,12 +291,13 @@ export class Editor {
         this.foregroundRender = null;
     }
 
-    setDragHandler(handler) {
-        this.eventManager.setDragHandler(handler);
+    startDragHandler(handler) {
+        ToolbarUtil.getInstance().clear();
+        this.eventManager.startDragHandler(handler);
     }
 
-    clearDragHandler() {
-        this.eventManager.clearDragHandler();
+    finishDragHandler() {
+        this.eventManager.finishDragHandler();
     }
 
     clearCommand() {

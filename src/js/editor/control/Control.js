@@ -2,19 +2,35 @@ import {SelectControlRender} from "./render/SelectControlRender.js";
 import {SelectionRect} from "./SelectionRect.js";
 import {ControlUtil} from "./ControlUtil.js";
 import {PointPosition} from "./PointPosition.js";
+import {LineStyle} from "./LineStyle.js";
 
 export const WIDTH = 50;
 export const HEIGHT = 50;
+
+export const ControlType = {
+    NONE: 'none',
+    LINE: 'line',
+    RECT: 'rect',
+    TRIANGLE: 'triangle',
+    CIRCLE: 'circle',
+    IMAGE: 'image',
+    POLYGON: 'polygon',
+}
 export class Control {
     constructor() {
         this._lineWidth = 1;
         this._lineColor = 'black';
+        this._lineStyle = LineStyle.SOLID;
         this._fillColor = 'rgb(189,246,197)';
         this._select = false;
         this._hover = false;
         this._minPoint = { x: 0, y: 0};
         this._maxPoint = { x: 0, y: 0};
         this.selectionRect = new SelectionRect();
+    }
+
+    get type() {
+        return ControlType.NONE;
     }
 
     get lineWidth() {
@@ -31,6 +47,14 @@ export class Control {
 
     set lineColor(value) {
         this._lineColor = value;
+    }
+
+    get lineStyle() {
+        return this._lineStyle;
+    }
+
+    set lineStyle(value) {
+        this._lineStyle = value;
     }
 
     get fillColor() {

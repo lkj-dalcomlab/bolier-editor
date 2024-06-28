@@ -1,10 +1,15 @@
 import {HoverCircleRender} from "./render/HoverCircleRender.js";
 import {PointPosition} from "./PointPosition.js";
 import {Rect} from "./Rect.js";
+import {ControlType} from "./Control.js";
 
 export class Circle extends Rect {
     constructor() {
         super();
+    }
+
+    get type() {
+        return ControlType.CIRCLE;
     }
 
     get p() {
@@ -38,7 +43,7 @@ export class Circle extends Rect {
     render(painter) {
         const ctx = painter.ctx;
         painter.start();
-        painter.lineOption(this.lineColor, this.lineWidth);
+        painter.lineOption(this.lineColor, this.lineWidth, 1, this.lineStyle);
         ctx.ellipse(this.p.x, this.p.y, this.xRadius, this.yRadius, 0, 0, 2*Math.PI);
         painter.lineEnd();
         ctx.fillStyle = this.fillColor;

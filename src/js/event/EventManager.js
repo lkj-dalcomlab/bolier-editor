@@ -17,11 +17,11 @@ export class EventManager {
         this.handlers.delete(handler.type);
     }
 
-    setDragHandler(handler) {
+    startDragHandler(handler) {
         this.dragHandler = handler;
     }
 
-    clearDragHandler() {
+    finishDragHandler() {
         this.dragHandler = null;
     }
 

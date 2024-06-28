@@ -14,7 +14,8 @@ export class CreateTriangleEventHandler extends EventHandler {
 
 
     get type() {
-        return EventType.TRIANGLE;
+        return EventType.CREATE_TRIANGLE;
+    }
     }
 
     onMouseMove(e) {

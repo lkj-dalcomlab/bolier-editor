@@ -20,6 +20,6 @@ export class ResizeControlEventHandler extends EventHandler {
     onMouseUp(e) {
         e.editor.page.selectControl.control.updatePointPosition();
         e.editor.page.selectControl.control.updatePointRatio();
-        e.editor.clearDragHandler();
+        e.editor.finishDragHandler();
     }
 }

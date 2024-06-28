@@ -1,3 +1,5 @@
+import {LineStyle} from "./control/LineStyle.js";
+
 export class Painter {
     constructor(ctx) {
         this._ctx = ctx;
@@ -7,20 +9,23 @@ export class Painter {
         return this._ctx;
     }
 
-    drawLine(p1, p2, color = 'black', width = 1, opacity = 1) {
+    drawLine(p1, p2, color = 'black', width = 1, opacity = 1, style = LineStyle.SOLID) {
         this.start();
-        this.lineOption(color, width, opacity);
+        this.lineOption(color, width, opacity, style);
         this.line(p1, p2);
         this.lineEnd();
         this.end();
         return this;
     }
 
-    lineOption(color = 'black', width = 1, opacity = 1) {
+    lineOption(color = 'black', width = 1, opacity = 1, style = LineStyle.SOLID) {
         const ctx = this._ctx;
         ctx.strokeStyle = color;
         ctx.lineWidth = width;
         ctx.globalAlpha = opacity;
+        if (style !== LineStyle.SOLID) {
+            this.ctx.setLineDash([5, 5]);
+        }
     }
 
     line(p1, p2) {

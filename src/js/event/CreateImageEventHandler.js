@@ -13,7 +13,7 @@ export class CreateImageEventHandler extends EventHandler {
     }
 
     get type() {
-        return EventType.IMAGE;
+        return EventType.CREATE_IMAGE;
     }
 
     onMouseDown(e) {

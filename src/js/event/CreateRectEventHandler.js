@@ -13,7 +13,7 @@ export class CreateRectEventHandler extends EventHandler {
     }
 
     get type() {
-        return EventType.RECT;
+        return EventType.CREATE_RECT;
     }
 
     onMouseDown(e) {

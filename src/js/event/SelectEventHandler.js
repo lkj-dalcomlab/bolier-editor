@@ -5,6 +5,7 @@ import {MoveControlEventHandler} from "./drag/MoveControlEventHandler.js";
 import {CursorType} from "../editor/CursorType.js";
 import {PointPosition} from "../editor/control/PointPosition.js";
 import {ResizeControlEventHandler} from "./drag/ResizeControlEventHandler.js";
+import {ToolbarUtil} from "../editor/ToolbarUtil.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
@@ -19,7 +20,7 @@ export class SelectEventHandler extends EventHandler {
         const page = e.editor.page;
 
         if (page.selectControl !== null && page.selectControl.resizeType !== PointPosition.NONE) {
-            e.editor.setDragHandler(new ResizeControlEventHandler());
+            e.editor.startDragHandler(new ResizeControlEventHandler());
             return;
         }
 
@@ -32,21 +33,24 @@ export class SelectEventHandler extends EventHandler {
             }
         }
 
+        page.selectControl = render;
         if (render === null) {
-            e.editor.setDragHandler(new DragPageEventHandler());
-            page.selectControl = null;
-            return;
+            ToolbarUtil.getInstance().hideLineOptionToolbar()
+            e.editor.startDragHandler(new DragPageEventHandler());
         }
 
-        e.editor.setDragHandler(new MoveControlEventHandler());
-
-        page.selectControl = render;
         page.render();
     }
 
     onMouseMove(e) {
         const page = e.editor.page;
         page.coordinate.curPoint = {x: e.originEvent.offsetX, y: e.originEvent.offsetY};
+
+        if (e.down && page.selectControl != null) {
+            page.setCursor(CursorType.MOVE);
+            e.editor.startDragHandler(new MoveControlEventHandler());
+            return;
+        }
 
         let render = null;
         const controls = page.controls;
@@ -65,7 +69,7 @@ export class SelectEventHandler extends EventHandler {
                 page.setCursor(CursorType.LT_RB);
             } else if (resizeType === PointPosition.RT || resizeType === PointPosition.LB) {
                 page.setCursor(CursorType.RT_LB);
-            } else if (render !== null){
+            } else if (render !== null && page.selectControl.control === render.control) {
                 page.setCursor(CursorType.MOVE);
             } else {
                 page.setCursor(CursorType.DEFAULT);
@@ -79,6 +83,13 @@ export class SelectEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
+        const page = e.editor.page;
+        if (page.selectControl === null) {
+            return;
+        }
+
+        ToolbarUtil.getInstance().showControlOptionToolbar(
+            { x: e.originEvent.offsetX, y: e.originEvent.offsetY }, page.selectControl.control);
     }
 
     onMouseWheel(e) {
