@@ -1,3 +1,5 @@
+import {ControlType} from "./control/Control.js";
+
 export const ToolbarPosition = {
     TOOLBAR_TOP : -50,
     LINE_WIDTH_LEFT : -30,
@@ -19,16 +21,23 @@ export class ToolbarUtil {
             this.lineStyleToolbar = document.getElementById('line-style');
             this.lineColorToolbar = document.getElementById('line-color');
             this.fillColorToolbar = document.getElementById('fill-color');
+            this.fillColorBtn = document.getElementById('fill-color-btn');
         }
         return this.instance;
     }
 
-    static showControlOptionToolbar(p) {
+    static showControlOptionToolbar(p, control) {
         this.lineOptionToolbar.classList.remove('hidden');
         this.lineWidthToolbar.classList.add('hidden');
         this.lineStyleToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
         this.fillColorToolbar.classList.add('hidden');
+        if (control.type === ControlType.LINE) {
+            this.fillColorBtn.classList.add('hidden');
+        } else {
+            this.fillColorBtn.classList.remove('hidden');
+        }
+
         this.lineOptionToolbar.style.top = p.y + 'px';
         this.lineOptionToolbar.style.left = p.x + 'px';
         this.#checkTagPosition(this.lineOptionToolbar, p.x);

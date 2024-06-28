@@ -1,9 +1,14 @@
 import {Rect} from "./Rect.js";
+import {ControlType} from "./Control.js";
 
 export class ImageRect extends Rect {
     constructor(image) {
         super();
         this._image = image;
+    }
+
+    get type() {
+        return ControlType.IMAGE;
     }
 
     get image() {

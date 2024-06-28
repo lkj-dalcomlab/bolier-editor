@@ -4,6 +4,9 @@ import {Tools} from "../Tools.js";
 import {ToolbarPosition, ToolbarUtil} from "./ToolbarUtil.js";
 import {LineStyle} from "./control/LineStyle.js";
 
+const COMMON_TOOLBAR_STYLE =
+    'hidden pointer-events-auto flex items-center rounded-md border border-slate-300 ' +
+    'shadow-sm bg-background bg-slate-100 text-foreground absolute gap-0.5 p-1'
 export class Editor {
     constructor(id, {width, height}) {
         const root = document.getElementById(id);
@@ -101,9 +104,7 @@ export class Editor {
     #createControlOptionToolbar() {
         const lineToolbar = document.createElement('div');
         lineToolbar.id = 'line-option';
-        lineToolbar.className =
-            'hidden pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
-            'shadow-sm bg-background bg-slate-100 text-foreground absolute gap-0.5 p-1';
+        lineToolbar.className = COMMON_TOOLBAR_STYLE;
 
         const lineWidthToolbar = this.#createLineWidthToolbar();
         const lineWidthBtn = this.#createButton('./icon/line_width.png', '', () => {
@@ -121,6 +122,7 @@ export class Editor {
                     this.page.selectControl.control.lineColor = color;
                 }
         );
+        lineColorToolbar.classList.add('bg-slate-200');
         const lineColorBtn = this.#createButton('./icon/line_color.png', '', () => {
             ToolbarUtil.showLineColorToolbar();
         });
@@ -131,9 +133,11 @@ export class Editor {
                 this.page.selectControl.control.fillColor = color;
             }
         );
+        fillColorToolbar.classList.add('bg-slate-300');
         const fillColorBtn = this.#createButton('./icon/fill_color.png', '', () => {
             ToolbarUtil.showFillColorToolbar();
         });
+        fillColorBtn.id = 'fill-color-btn';
 
         lineToolbar.appendChild(lineWidthBtn);
         lineToolbar.appendChild(lineStyleBtn);
@@ -152,8 +156,7 @@ export class Editor {
         lineColorToolbar.id = id;
         lineColorToolbar.style.left = p.x + 'px';
         lineColorToolbar.style.top = p.y + 'px';
-        lineColorToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
-            'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        lineColorToolbar.className = COMMON_TOOLBAR_STYLE;
 
         const colorSet = ['rgb(255,255,255)', 'rgb(0,0,0)','rgb(113,113,113)',
                                     'rgb(216,61,27)', 'rgb(236,145,38)', 'rgb(233,186,31)',
@@ -174,8 +177,7 @@ export class Editor {
         lineStyleToolbar.id = 'line-style';
         lineStyleToolbar.style.left = ToolbarPosition.LINE_STYLE_LEFT + 'px';
         lineStyleToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
-        lineStyleToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
-            'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        lineStyleToolbar.className = COMMON_TOOLBAR_STYLE;
 
         const lineSolid = this.#createButton('./icon/line_width_1.png', '', () => {
             this.page.selectControl.control.lineStyle = LineStyle.SOLID;
@@ -197,8 +199,7 @@ export class Editor {
         lineWidthToolbar.id = 'line-width';
         lineWidthToolbar.style.left = ToolbarPosition.LINE_WIDTH_LEFT + 'px';
         lineWidthToolbar.style.top = ToolbarPosition.TOOLBAR_TOP + 'px';
-        lineWidthToolbar.className = 'hidden absolute pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
-            'shadow-sm bg-background bg-slate-100 text-foreground flex gap-0.5 p-0.5 p-1 pl-3 pr-3';
+        lineWidthToolbar.className = COMMON_TOOLBAR_STYLE;
 
         for (let i = 1; i <= 5; ++i) {
             const lineWidthBtn = document.createElement('button');

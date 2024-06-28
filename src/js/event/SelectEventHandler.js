@@ -88,7 +88,8 @@ export class SelectEventHandler extends EventHandler {
             return;
         }
 
-        ToolbarUtil.getInstance().showControlOptionToolbar({ x: e.originEvent.offsetX, y: e.originEvent.offsetY });
+        ToolbarUtil.getInstance().showControlOptionToolbar(
+            { x: e.originEvent.offsetX, y: e.originEvent.offsetY }, page.selectControl.control);
     }
 
     onMouseWheel(e) {

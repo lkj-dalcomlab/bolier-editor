@@ -1,4 +1,4 @@
-import {HEIGHT, WIDTH} from "./Control.js";
+import {ControlType, HEIGHT, WIDTH} from "./Control.js";
 import {Polygon} from "./Polygon.js";
 import {HoverTriangleRender} from "./render/HoverTriangleRender.js";
 import {Point} from "./Point.js";
@@ -13,6 +13,10 @@ export class Triangle extends Polygon {
         this.points.push(this._top);
         this.points.push(this._left);
         this.points.push(this._right);
+    }
+
+    get type() {
+        return ControlType.TRIANGLE;
     }
 
     get top() {

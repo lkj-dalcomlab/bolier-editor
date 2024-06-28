@@ -1,5 +1,5 @@
 import {Polygon} from "./Polygon.js";
-import {HEIGHT, WIDTH} from "./Control.js";
+import {ControlType, HEIGHT, WIDTH} from "./Control.js";
 import {HoverRectRender} from "./render/HoverRectRender.js";
 import {PointPosition} from "./PointPosition.js";
 import {Point} from "./Point.js";
@@ -15,6 +15,10 @@ export class Rect extends Polygon {
         this.points.push(this._rt);
         this.points.push(this._rb);
         this.points.push(this._lb);
+    }
+
+    get type() {
+        return ControlType.RECT;
     }
 
     get lt() {
