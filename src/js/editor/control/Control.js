@@ -97,6 +97,12 @@ export class Control {
         return this.maxPoint.y - this.minPoint.y;
     }
 
+    updatePosition() {
+        this.updateSelectPosition()
+        this.updatePointPosition();
+        this.updatePointRatio();
+    }
+
     updateSelectPosition() {
     }
 

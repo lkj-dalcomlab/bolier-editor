@@ -42,8 +42,7 @@ export class CreateRectEventHandler extends EventHandler {
 
     onMouseUp(e) {
         ControlUtil.checkDragPosition(this.rect, e.downPoint, e.point);
-        this.rect.updateSelectPosition();
-        this.rect.updatePointRatio();
+        this.rect.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.rect);

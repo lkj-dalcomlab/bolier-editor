@@ -42,8 +42,7 @@ export class CreateImageEventHandler extends EventHandler {
 
     onMouseUp(e) {
         ControlUtil.checkDragPosition(this.image, e.downPoint, e.point);
-        this.image.updateSelectPosition();
-        this.image.updatePointRatio();
+        this.image.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.image);
