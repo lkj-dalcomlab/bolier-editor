@@ -3,6 +3,7 @@ import {PointPosition} from "./PointPosition.js";
 import {Polygon} from "./Polygon.js";
 import {Point} from "./Point.js";
 import {ControlType} from "./Control.js";
+import {ControlUtil} from "./ControlUtil.js";
 
 export class Line extends Polygon {
     constructor() {
@@ -49,19 +50,7 @@ export class Line extends Polygon {
     }
 
     ptInControl(p) {
-        let x = p.x;
-        let y = p.y;
-        let x1 = this.p1.x;
-        let y1 = this.p1.y;
-        let x2 = this.p2.x;
-        let y2 = this.p2.y;
-
-        const a = Math.sqrt(((x2-x1)**2) + ((y2-y1)**2));
-        const b = Math.sqrt(((x1-x)**2) + ((y1-y)**2));
-        const c = Math.sqrt(((x2-x)**2) + ((y2-y)**2));
-        const d = b + c - a;
-
-        return d <= 1;
+        return ControlUtil.ptInLine(p, this);
     }
 
     ptInHoverControl(p) {

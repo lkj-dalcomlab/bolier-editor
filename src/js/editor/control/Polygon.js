@@ -30,148 +30,124 @@ export class Polygon extends Control {
                 case PointPosition.LB:
                     this.#resizeLeftBottom(p, p_);
                     break;
+                case PointPosition.L:
+                    this.#resizeLeft(p, p_);
+                    break;
+                case PointPosition.R:
+                    this.#resizeRight(p, p_);
+                    break;
+                case PointPosition.T:
+                    this.#resizeTop(p, p_);
+                    break;
+                case PointPosition.B:
+                    this.#resizeBottom(p, p_);
+                    break;
             }
         });
     }
 
-    #resizeLeftTop(p1, p2) {
+    #resizeLeft(p1, p2) {
         switch (p2.position) {
-            case PointPosition.RB:
-                return;
-            case PointPosition.LT:
-                p2.x += p1.x;
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.LB:
-                p2.x += p1.x;
-                break;
-            case PointPosition.RT:
-                p2.y += p1.y;
-                break;
-
             case PointPosition.T:
-                p2.y += p1.y;
             case PointPosition.B:
                 p2.x += p1.x * p2.xRatio;
                 break;
-
             case PointPosition.L:
+            case PointPosition.LT:
+            case PointPosition.LB:
                 p2.x += p1.x;
+                break;
+            case PointPosition.R:
+            case PointPosition.RT:
+            case PointPosition.RB:
+                return;
+            default:
+                p2.x += p1.x * p2.xRatio;
+                break;
+        }
+    }
+
+    #resizeRight(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.T:
+            case PointPosition.B:
+                p2.x += p1.x * p2.xRatio;
+                break;
+            case PointPosition.R:
+            case PointPosition.RT:
+            case PointPosition.RB:
+                p2.x += p1.x;
+                break;
+            case PointPosition.L:
+            case PointPosition.LT:
+            case PointPosition.LB:
+                return;
+            default:
+                p2.x += p1.x * p2.xRatio;
+                break;
+        }
+    }
+
+    #resizeTop(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.L:
             case PointPosition.R:
                 p2.y += p1.y * p2.yRatio;
                 break;
-
+            case PointPosition.T:
+            case PointPosition.LT:
+            case PointPosition.RT:
+                p2.y += p1.y;
+                break;
+            case PointPosition.B:
+            case PointPosition.LB:
+            case PointPosition.RB:
+                return;
             default:
-                p2.x += p1.x * p2.xRatio;
                 p2.y += p1.y * p2.yRatio;
                 break;
         }
+    }
+
+    #resizeBottom(p1, p2) {
+        switch (p2.position) {
+            case PointPosition.L:
+            case PointPosition.R:
+                p2.y += p1.y * p2.yRatio;
+                break;
+            case PointPosition.B:
+            case PointPosition.LB:
+            case PointPosition.RB:
+                p2.y += p1.y;
+                break;
+            case PointPosition.T:
+            case PointPosition.LT:
+            case PointPosition.RT:
+                return;
+            default:
+                p2.y += p1.y * p2.yRatio;
+                break;
+        }
+    }
+
+    #resizeLeftTop(p1, p2) {
+        this.#resizeLeft(p1, p2);
+        this.#resizeTop(p1, p2);
     }
 
     #resizeRightTop(p1, p2) {
-        switch (p2.position) {
-            case PointPosition.LB:
-                return;
-            case PointPosition.RT:
-                p2.x += p1.x;
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.RB:
-                p2.x += p1.x;
-                break;
-            case PointPosition.LT:
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.T:
-                p2.y += p1.y;
-            case PointPosition.B:
-                p2.x += p1.x * p2.xRatio;
-                break;
-
-            case PointPosition.R:
-                p2.x += p1.x;
-            case PointPosition.L:
-                p2.y += p1.y * p2.yRatio;
-                break;
-
-            default:
-                p2.x += p1.x * p2.xRatio;
-                p2.y += p1.y * p2.yRatio;
-                break;
-        }
+        this.#resizeRight(p1, p2);
+        this.#resizeTop(p1, p2);
     }
 
     #resizeRightBottom(p1, p2) {
-        switch (p2.position) {
-            case PointPosition.LT:
-                return;
-            case PointPosition.RB:
-                p2.x += p1.x;
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.RT:
-                p2.x += p1.x;
-                break;
-            case PointPosition.LB:
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.B:
-                p2.y += p1.y;
-            case PointPosition.T:
-                p2.x += p1.x * p2.xRatio;
-                break;
-
-            case PointPosition.R:
-                p2.x += p1.x;
-            case PointPosition.L:
-                p2.y += p1.y * p2.yRatio;
-                break;
-
-            default:
-                p2.x += p1.x * p2.xRatio;
-                p2.y += p1.y * p2.yRatio;
-                break;
-        }
+        this.#resizeRight(p1, p2);
+        this.#resizeBottom(p1, p2);
     }
 
     #resizeLeftBottom(p1, p2) {
-        switch (p2.position) {
-            case PointPosition.RT:
-                return;
-            case PointPosition.LB:
-                p2.x += p1.x;
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.LT:
-                p2.x += p1.x;
-                break;
-            case PointPosition.RB:
-                p2.y += p1.y;
-                break;
-
-            case PointPosition.B:
-                p2.y += p1.y;
-            case PointPosition.T:
-                p2.x += p1.x * p2.xRatio;
-                break;
-
-            case PointPosition.L:
-                p2.x += p1.x;
-            case PointPosition.R:
-                p2.y += p1.y * p2.yRatio;
-                break;
-
-            default:
-                p2.x += p1.x * p2.xRatio;
-                p2.y += p1.y * p2.yRatio;
-                break;
-        }
+        this.#resizeLeft(p1, p2);
+        this.#resizeBottom(p1, p2);
     }
 
     updateSelectPosition() {
