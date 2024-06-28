@@ -33,6 +33,7 @@ export class Tools {
         }
 
         this.clear = () => {
+            editor.removeForegroundRender();
             this.commandManager.execute(new DefaultCommand(editor));
         };
 
