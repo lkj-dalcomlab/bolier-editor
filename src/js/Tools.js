@@ -5,25 +5,37 @@ import {DefaultCommand} from "./command/DefaultCommand.js";
 import {CreateTriangle} from "./command/CreateTriangle.js";
 import {CreateCircle} from "./command/CreateCircle.js";
 import {CreateImage} from "./command/CreateImage.js";
+import {Line} from "./editor/control/Line.js";
+import {Rect} from "./editor/control/Rect.js";
+import {Triangle} from "./editor/control/Triangle.js";
+import {Circle} from "./editor/control/Circle.js";
 
 export class Tools {
     constructor(editor) {
         this.editor = editor;
         this.commandManager = new CommandManager();
-        this.createLine = () => {
+        this.createLine = (p) => {
+            editor.page.newControl = this.#initControl(p, new Line());
             this.commandManager.execute(new CreateLine(editor));
+            editor.render();
         };
 
-        this.createRect = () => {
+        this.createRect = (p) => {
+            editor.page.newControl = this.#initControl(p, new Rect());
             this.commandManager.execute(new CreateRect(editor));
+            editor.render();
         };
 
-        this.createTriangle = () => {
+        this.createTriangle = (p) => {
+            editor.page.newControl = this.#initControl(p, new Triangle());
             this.commandManager.execute(new CreateTriangle(editor));
+            editor.render();
         };
 
-        this.createCircle = () => {
+        this.createCircle = (p) => {
+            editor.page.newControl = this.#initControl(p, new Circle());
             this.commandManager.execute(new CreateCircle(editor));
+            editor.render();
         };
 
         this.createImage = () => {
@@ -35,9 +47,17 @@ export class Tools {
         this.clear = () => {
             editor.removeForegroundRender();
             this.commandManager.execute(new DefaultCommand(editor));
+            editor.render();
         };
 
         this.commandManager.execute(new DefaultCommand(editor));
+    }
+
+    #initControl(p, control) {
+        if (p !== undefined) {
+            control.setPosition(p);
+        }
+        return control;
     }
 
     #imageOpen(execute) {
@@ -46,7 +66,6 @@ export class Tools {
         input.accept = 'image/*';
         input.style.display = 'none';
 
-        let img;
         input.addEventListener('change', (e) => {
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -60,6 +79,5 @@ export class Tools {
         });
 
         input.click();
-        return img;
     }
 }

@@ -1,6 +1,5 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
-import {Circle} from "../editor/control/Circle.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateCircleRender} from "../editor/control/render/CreateCircleRender.js";
 
@@ -8,7 +7,7 @@ export class CreateCircleEventHandler extends EventHandler {
     constructor(editor) {
         super();
         this.editor = editor;
-        this.circle = new Circle();
+        this.circle = editor.page.newControl;
         editor.addForegroundRender(new CreateCircleRender(this.circle));
     }
 
