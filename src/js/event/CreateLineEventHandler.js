@@ -1,13 +1,12 @@
 import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
-import {Line} from "../editor/control/Line.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateLineRender} from "../editor/control/render/CreateLineRender.js";
 
 export class CreateLineEventHandler extends EventHandler {
     constructor(editor) {
         super();
-        this.line = new Line();
+        this.line = editor.page.newControl;
         this.editor = editor;
         editor.addForegroundRender(new CreateLineRender(this.line));
     }

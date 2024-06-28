@@ -10,6 +10,7 @@ export class Page {
         this._painter = new Painter(ctx);
         this._coordinate = new Coordinate();
         this._controls = [];
+        this._newControl = null;
         this._selectControls = [];
         this._selectControl = null;
         this._hoverControl = null;
@@ -22,6 +23,14 @@ export class Page {
 
     get controls() {
         return this._controls;
+    }
+
+    get newControl() {
+        return this._newControl;
+    }
+
+    set newControl(value) {
+        this._newControl = value;
     }
 
     get selectControls() {

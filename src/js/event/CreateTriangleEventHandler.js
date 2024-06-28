@@ -1,5 +1,4 @@
 import {EventHandler} from "./EventHandler.js";
-import {Triangle} from "../editor/control/Triangle.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateTriangleRender} from "../editor/control/render/CreateTriangleRender.js";
@@ -8,7 +7,7 @@ export class CreateTriangleEventHandler extends EventHandler {
     constructor(editor) {
         super();
         this.editor = editor;
-        this.triangle = new Triangle();
+        this.triangle = editor.page.newControl;
         editor.addForegroundRender(new CreateTriangleRender(this.triangle));
     }
 
