@@ -162,6 +162,22 @@ export class Control {
             return PointPosition.LB;
         }
 
+        if (ControlUtil.ptInLine(p, {p1: lt, p2: lb})) {
+            return PointPosition.L;
+        }
+
+        if (ControlUtil.ptInLine(p, {p1: rt, p2: rb})) {
+            return PointPosition.R;
+        }
+
+        if (ControlUtil.ptInLine(p, {p1: lt, p2: rt})) {
+            return PointPosition.T;
+        }
+
+        if (ControlUtil.ptInLine(p, {p1: lb, p2: rb})) {
+            return PointPosition.B;
+        }
+
         return PointPosition.NONE;
     }
 

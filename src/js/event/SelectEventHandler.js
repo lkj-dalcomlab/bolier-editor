@@ -69,6 +69,10 @@ export class SelectEventHandler extends EventHandler {
                 page.setCursor(CursorType.LT_RB);
             } else if (resizeType === PointPosition.RT || resizeType === PointPosition.LB) {
                 page.setCursor(CursorType.RT_LB);
+            } else if (resizeType === PointPosition.L || resizeType === PointPosition.R) {
+                page.setCursor(CursorType.L_R)
+            } else if (resizeType === PointPosition.T || resizeType === PointPosition.B) {
+                page.setCursor(CursorType.T_B)
             } else if (render !== null && page.selectControl.control === render.control) {
                 page.setCursor(CursorType.MOVE);
             } else {
