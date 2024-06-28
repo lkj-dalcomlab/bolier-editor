@@ -34,6 +34,7 @@ export class CreateLineEventHandler extends EventHandler {
 
     onMouseUp(e) {
         ControlUtil.checkDragPosition(this.line, e.downPoint, e.point);
+        this.line.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.line);

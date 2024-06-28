@@ -41,6 +41,7 @@ export class CreateCircleEventHandler extends EventHandler {
 
     onMouseUp(e) {
         ControlUtil.checkDragPosition(this.circle, e.downPoint, e.point);
+        this.circle.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.circle);
