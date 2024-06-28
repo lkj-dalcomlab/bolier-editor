@@ -17,6 +17,7 @@ export class CreateCircleEventHandler extends EventHandler {
     }
 
     onMouseDown(e) {
+        e.editor.page.selectControl = null;
     }
 
     onMouseMove(e) {
