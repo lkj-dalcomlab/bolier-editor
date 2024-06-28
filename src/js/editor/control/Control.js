@@ -6,6 +6,16 @@ import {LineStyle} from "./LineStyle.js";
 
 export const WIDTH = 50;
 export const HEIGHT = 50;
+
+export const ControlType = {
+    NONE: 'none',
+    LINE: 'line',
+    RECT: 'rect',
+    TRIANGLE: 'triangle',
+    CIRCLE: 'circle',
+    IMAGE: 'image',
+    POLYGON: 'polygon',
+}
 export class Control {
     constructor() {
         this._lineWidth = 1;
@@ -17,6 +27,10 @@ export class Control {
         this._minPoint = { x: 0, y: 0};
         this._maxPoint = { x: 0, y: 0};
         this.selectionRect = new SelectionRect();
+    }
+
+    get type() {
+        return ControlType.NONE;
     }
 
     get lineWidth() {

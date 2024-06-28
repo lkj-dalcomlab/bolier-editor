@@ -1,10 +1,15 @@
 import {HoverCircleRender} from "./render/HoverCircleRender.js";
 import {PointPosition} from "./PointPosition.js";
 import {Rect} from "./Rect.js";
+import {ControlType} from "./Control.js";
 
 export class Circle extends Rect {
     constructor() {
         super();
+    }
+
+    get type() {
+        return ControlType.CIRCLE;
     }
 
     get p() {

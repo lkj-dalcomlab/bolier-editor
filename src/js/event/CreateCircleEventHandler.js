@@ -13,7 +13,7 @@ export class CreateCircleEventHandler extends EventHandler {
     }
 
     get type() {
-        return EventType.CIRCLE;
+        return EventType.CREATE_CIRCLE;
     }
 
     onMouseDown(e) {

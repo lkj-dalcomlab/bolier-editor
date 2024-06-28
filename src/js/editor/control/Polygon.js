@@ -1,10 +1,14 @@
-import {Control} from "./Control.js";
+import {Control, ControlType} from "./Control.js";
 import {PointPosition} from "./PointPosition.js";
 
 export class Polygon extends Control {
     constructor() {
         super();
         this._points = [];
+    }
+
+    get type() {
+        return ControlType.POLYGON;
     }
 
     get points() {

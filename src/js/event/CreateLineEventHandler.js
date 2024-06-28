@@ -13,7 +13,7 @@ export class CreateLineEventHandler extends EventHandler {
     }
 
     get type() {
-        return EventType.LINE;
+        return EventType.CREATE_LINE;
     }
 
     onMouseDown(e) {

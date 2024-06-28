@@ -2,6 +2,7 @@ import {HoverLineRender} from "./render/HoverLineRender.js";
 import {PointPosition} from "./PointPosition.js";
 import {Polygon} from "./Polygon.js";
 import {Point} from "./Point.js";
+import {ControlType} from "./Control.js";
 
 export class Line extends Polygon {
     constructor() {
@@ -10,6 +11,10 @@ export class Line extends Polygon {
         this._p2 = new Point(PointPosition.RB);
         this.points.push(this.p1);
         this.points.push(this.p2);
+    }
+
+    get type() {
+        return ControlType.LINE;
     }
 
     get p1() {
