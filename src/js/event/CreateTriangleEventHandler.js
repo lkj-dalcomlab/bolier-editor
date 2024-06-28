@@ -16,6 +16,9 @@ export class CreateTriangleEventHandler extends EventHandler {
     get type() {
         return EventType.CREATE_TRIANGLE;
     }
+
+    onMouseDown(e) {
+        e.editor.page.selectControl = null;
     }
 
     onMouseMove(e) {
