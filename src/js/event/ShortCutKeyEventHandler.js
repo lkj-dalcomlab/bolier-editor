@@ -22,6 +22,9 @@ export class ShortCutKeyEventHandler extends EventHandler {
             case 't':
                     e.editor.tools.createImage();
                 break;
+            case 'Escape':
+                    e.editor.tools.clear();
+                break;
             default:
                 console.log(e.originEvent.key);
                 break;
