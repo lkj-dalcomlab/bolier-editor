@@ -54,7 +54,6 @@ export class Tools {
         }
 
         this.clear = () => {
-            historyManager.cancelUndo();
             editor.removeForegroundRender();
             this.commandManager.execute(new DefaultCommand(editor));
             editor.render();

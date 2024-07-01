@@ -74,6 +74,11 @@ export class Page {
         this._controls = this.controls.filter(element => {
             return element !== control;
         });
+
+        if (control === this.selectControl?.control) {
+            this.selectControl = null;
+            this.hoverControl = null;
+        }
         this.render();
     }
 

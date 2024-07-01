@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateTriangleRender} from "../editor/control/render/CreateTriangleRender.js";
+import {Action} from "../command/undo/Action.js";
 
 export class CreateTriangleEventHandler extends EventHandler {
     constructor(editor) {
@@ -9,6 +10,9 @@ export class CreateTriangleEventHandler extends EventHandler {
         this.editor = editor;
         this.triangle = editor.page.newControl;
         editor.addForegroundRender(new CreateTriangleRender(this.triangle));
+        editor.historyManager.startUndo(new Action('undo create triangle', ()=> {
+            editor.page.removeControl(this.triangle);
+        }));
     }
 
 
@@ -42,6 +46,9 @@ export class CreateTriangleEventHandler extends EventHandler {
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.triangle);
+        e.editor.historyManager.endUndo(new Action('redo create triangle', ()=> {
+            this.editor.page.addControl(this.triangle);
+        }));
     }
 
     onKeyUp(e) {

@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateCircleRender} from "../editor/control/render/CreateCircleRender.js";
+import {Action} from "../command/undo/Action.js";
 
 export class CreateCircleEventHandler extends EventHandler {
     constructor(editor) {
@@ -9,6 +10,9 @@ export class CreateCircleEventHandler extends EventHandler {
         this.editor = editor;
         this.circle = editor.page.newControl;
         editor.addForegroundRender(new CreateCircleRender(this.circle));
+        editor.historyManager.startUndo(new Action('undo create circle', ()=> {
+            editor.page.removeControl(this.circle);
+        }));
     }
 
     get type() {
@@ -43,6 +47,10 @@ export class CreateCircleEventHandler extends EventHandler {
         this.circle.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
+
+        e.editor.historyManager.endUndo(new Action('redo create circle', ()=> {
+            this.editor.page.addControl(this.circle);
+        }));
         e.editor.page.addControl(this.circle);
     }
 }

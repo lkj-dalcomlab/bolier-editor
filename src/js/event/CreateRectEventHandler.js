@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateRectRender} from "../editor/control/render/CreateRectRender.js";
+import {Action} from "../command/undo/Action.js";
 
 export class CreateRectEventHandler extends EventHandler {
     constructor(editor) {
@@ -9,6 +10,9 @@ export class CreateRectEventHandler extends EventHandler {
         this.editor = editor;
         this.rect = editor.page.newControl;
         editor.addForegroundRender(new CreateRectRender(this.rect));
+        editor.historyManager.startUndo(new Action('undo create rect', ()=> {
+            editor.page.removeControl(this.rect);
+        }));
     }
 
     get type() {
@@ -45,5 +49,8 @@ export class CreateRectEventHandler extends EventHandler {
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.rect);
+        e.editor.historyManager.endUndo(new Action('redo create rect', ()=> {
+            this.editor.page.addControl(this.rect);
+        }));
     }
 }
