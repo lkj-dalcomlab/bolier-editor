@@ -33,10 +33,26 @@ export class Triangle extends Polygon {
 
     updateSelectPosition() {
         super.updateSelectPosition();
-        // this.minPoint.x = Math.min(this.top.x, Math.min(this.right.x, this.left.x));
-        // this.minPoint.y = Math.min(this.top.y, Math.min(this.right.y, this.left.y));
-        // this.maxPoint.x = Math.max(this.top.x, Math.max(this.right.x, this.left.x));
-        // this.maxPoint.y = Math.max(this.top.y, Math.max(this.right.y, this.left.y));
+    }
+
+    updatePointPosition() {
+        super.updatePointPosition();
+        this.points.forEach(p => {
+            switch (p.position) {
+                case PointPosition.B:
+                case PointPosition.T:
+                    this._top = p;
+                    break;
+                case PointPosition.LT:
+                case PointPosition.LB:
+                    this._left = p;
+                    break;
+                case PointPosition.RT:
+                case PointPosition.RB:
+                    this._right = p;
+                    break;
+            }
+        });
     }
 
     move(p) {

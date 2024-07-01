@@ -6,6 +6,8 @@ import {CursorType} from "../editor/CursorType.js";
 import {PointPosition} from "../editor/control/PointPosition.js";
 import {ResizeControlEventHandler} from "./drag/ResizeControlEventHandler.js";
 import {ToolbarUtil} from "../editor/ToolbarUtil.js";
+import {ResizeAction} from "../command/undo/ResizeAction.js";
+import {MoveAction} from "../command/undo/MoveAction.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
@@ -20,6 +22,7 @@ export class SelectEventHandler extends EventHandler {
         const page = e.editor.page;
 
         if (page.selectControl !== null && page.selectControl.resizeType !== PointPosition.NONE) {
+            e.editor.historyManager.startUndo(new ResizeAction('undo resize', page.selectControl.control));
             e.editor.startDragHandler(new ResizeControlEventHandler());
             return;
         }
@@ -48,6 +51,7 @@ export class SelectEventHandler extends EventHandler {
 
         if (e.down && page.selectControl != null) {
             page.setCursor(CursorType.MOVE);
+            e.editor.historyManager.startUndo(new ResizeAction('undo move', page.selectControl.control));
             e.editor.startDragHandler(new MoveControlEventHandler());
             return;
         }

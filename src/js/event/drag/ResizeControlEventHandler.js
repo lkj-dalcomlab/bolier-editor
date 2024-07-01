@@ -1,4 +1,5 @@
 import {EventHandler} from "../EventHandler.js";
+import {ResizeAction} from "../../command/undo/ResizeAction.js";
 
 export class ResizeControlEventHandler extends EventHandler {
 
@@ -18,8 +19,11 @@ export class ResizeControlEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        e.editor.page.selectControl.control.updatePointPosition();
-        e.editor.page.selectControl.control.updatePointRatio();
+        const control = e.editor.page.selectControl.control;
+        control.updatePointPosition();
+        control.updatePointRatio();
+
+        e.editor.historyManager.endUndo(new ResizeAction('redo Resize', control));
         e.editor.finishDragHandler();
     }
 }

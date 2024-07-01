@@ -14,6 +14,7 @@ export class Tools {
     constructor(editor) {
         this.editor = editor;
         this.commandManager = new CommandManager();
+        const historyManager = editor.historyManager;
         this.createLine = (p) => {
             editor.page.newControl = this.#initControl(p, new Line());
             this.commandManager.execute(new CreateLine(editor));
@@ -44,7 +45,16 @@ export class Tools {
             });
         }
 
+        this.undo = () => {
+            historyManager.undo();
+        }
+
+        this.redo = () => {
+            historyManager.redo();
+        }
+
         this.clear = () => {
+            historyManager.cancelUndo();
             editor.removeForegroundRender();
             this.commandManager.execute(new DefaultCommand(editor));
             editor.render();

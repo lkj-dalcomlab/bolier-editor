@@ -41,6 +41,26 @@ export class Rect extends Polygon {
         super.updateSelectPosition();
     }
 
+    updatePointPosition() {
+        super.updatePointPosition();
+        this.points.forEach(p => {
+            switch (p.position) {
+                case PointPosition.LT:
+                    this._lt = p;
+                    break;
+                case PointPosition.RT:
+                    this._rt = p;
+                    break;
+                case PointPosition.RB:
+                    this._rb = p;
+                    break;
+                case PointPosition.LB:
+                    this._lb = p;
+                    break;
+            }
+        });
+    }
+
     move(p) {
         super.move(p);
     }
