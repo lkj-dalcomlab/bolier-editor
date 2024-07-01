@@ -3,6 +3,7 @@ import {Page} from "./Page.js";
 import {Tools} from "../Tools.js";
 import {ToolbarPosition, ToolbarUtil} from "./ToolbarUtil.js";
 import {LineStyle} from "./control/LineStyle.js";
+import {HistoryManager} from "./HistoryManager.js";
 
 const COMMON_TOOLBAR_STYLE =
     'hidden pointer-events-auto flex items-center rounded-md border border-slate-300 ' +
@@ -23,11 +24,10 @@ export class Editor {
         this.ctx = this.canvas.getContext('2d');
         this.page = new Page(this.ctx);
         this.eventManager = new EventManager(this);
+        this._historyManager = new HistoryManager(this);
         this._tools = new Tools(this);
 
         this.foregroundRender = null;
-
-        // this._undoManager = new UndoManager();
 
         this.#init(root);
     }
@@ -313,7 +313,7 @@ export class Editor {
         return this._tools;
     }
 
-// get undoManager() {
-    //     return this._undoManager;
-    // }
+    get historyManager() {
+        return this._historyManager;
+    }
 }

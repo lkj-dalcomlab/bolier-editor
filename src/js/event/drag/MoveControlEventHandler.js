@@ -1,4 +1,6 @@
 import {EventHandler} from "../EventHandler.js";
+import {MoveAction} from "../../command/undo/MoveAction.js";
+import {ResizeAction} from "../../command/undo/ResizeAction.js";
 
 export class MoveControlEventHandler extends EventHandler {
 
@@ -17,6 +19,7 @@ export class MoveControlEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
+        e.editor.historyManager.endUndo(new ResizeAction('redo move', e.editor.page.selectControl.control));
         e.editor.finishDragHandler();
     }
 }

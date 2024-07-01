@@ -49,4 +49,13 @@ export class Point {
     set position(value) {
         this._position = value;
     }
+
+    copy() {
+        const p = new Point(this.position);
+        p.x = this.x;
+        p.y = this.y;
+        p.xRatio = this.xRatio;
+        p.yRatio = this.yRatio;
+        return p;
+    }
 }
