@@ -222,7 +222,7 @@ export class Editor {
 
     #createCircleButton(color, clickEvent) {
         const btnWrap = document.createElement('div');
-        btnWrap.className = 'relative flex item-center justify-center mr-1 pt-0.5 pb-0.5 rounded-full hover:bg-slate-200';
+        btnWrap.className = 'relative flex item-center justify-center mr-1 pt-0.5 pb-0.5 rounded-full hover:bg-slate-300';
 
         const btn = document.createElement('button');
         btn.className = 'w-6 h-6 mt-1 mb-1 ml-2 mr-2 inline-flex items-center justify-center rounded-full';

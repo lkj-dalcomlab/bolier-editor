@@ -32,7 +32,7 @@ export class ToolbarUtil {
         this.lineStyleToolbar.classList.add('hidden');
         this.lineColorToolbar.classList.add('hidden');
         this.fillColorToolbar.classList.add('hidden');
-        if (control.type === ControlType.LINE) {
+        if (control.type === ControlType.LINE || control.type === ControlType.IMAGE) {
             this.fillColorBtn.classList.add('hidden');
         } else {
             this.fillColorBtn.classList.remove('hidden');
