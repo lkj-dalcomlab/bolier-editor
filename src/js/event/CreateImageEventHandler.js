@@ -3,6 +3,7 @@ import {CreateImageRender} from "../editor/control/render/CreateImageRender.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {ImageRect} from "../editor/control/ImageRect.js";
+import {Action} from "../command/undo/Action.js";
 
 export class CreateImageEventHandler extends EventHandler {
     constructor(editor, image) {
@@ -10,6 +11,9 @@ export class CreateImageEventHandler extends EventHandler {
         this.editor = editor;
         this.image = new ImageRect(image);
         editor.addForegroundRender(new CreateImageRender(this.image));
+        editor.historyManager.startUndo(new Action('undo create image', ()=> {
+            editor.page.removeControl(this.image);
+        }));
     }
 
     get type() {
@@ -45,6 +49,10 @@ export class CreateImageEventHandler extends EventHandler {
         this.image.updatePosition();
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
+
         e.editor.page.addControl(this.image);
+        e.editor.historyManager.endUndo(new Action('redo create image', ()=> {
+            this.editor.page.addControl(this.image);
+        }));
     }
 }

@@ -2,6 +2,7 @@ import {EventHandler} from "./EventHandler.js";
 import {EventType} from "./EventType.js";
 import {ControlUtil} from "../editor/control/ControlUtil.js";
 import {CreateLineRender} from "../editor/control/render/CreateLineRender.js";
+import {Action} from "../command/undo/Action.js";
 
 export class CreateLineEventHandler extends EventHandler {
     constructor(editor) {
@@ -9,6 +10,9 @@ export class CreateLineEventHandler extends EventHandler {
         this.line = editor.page.newControl;
         this.editor = editor;
         editor.addForegroundRender(new CreateLineRender(this.line));
+        editor.historyManager.startUndo(new Action('undo create line', ()=> {
+            editor.page.removeControl(this.line);
+        }));
     }
 
     get type() {
@@ -37,6 +41,10 @@ export class CreateLineEventHandler extends EventHandler {
         this.editor.removeForegroundRender();
         this.editor.clearCommand();
         e.editor.page.addControl(this.line);
+
+        e.editor.historyManager.endUndo(new Action('redo create line', ()=> {
+            this.editor.page.addControl(this.line);
+        }));
     }
 
     onMouseWheel(e) {

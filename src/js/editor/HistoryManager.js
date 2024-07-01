@@ -34,10 +34,6 @@ export class HistoryManager {
         this.undoAction = undoAction;
     }
 
-    cancelUndo() {
-        this.undoAction = null;
-    }
-
     endUndo(redoAction) {
         const undoAction = this.undoAction;
         const item = new HistoryCommand(()=> undoAction.run(), ()=> redoAction.run());
