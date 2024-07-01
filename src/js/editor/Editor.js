@@ -4,6 +4,9 @@ import {Tools} from "../Tools.js";
 import {ToolbarPosition, ToolbarUtil} from "./ToolbarUtil.js";
 import {LineStyle} from "./control/LineStyle.js";
 import {HistoryManager} from "./HistoryManager.js";
+import {LineColorAction} from "../command/undo/LineColorAction.js";
+import {LineStyleAction} from "../command/undo/LineStyleAction.js";
+import {LineWidthAction} from "../command/undo/LineWidthAction.js";
 
 const COMMON_TOOLBAR_STYLE =
     'hidden pointer-events-auto flex items-center rounded-md border border-slate-300 ' +
@@ -119,7 +122,10 @@ export class Editor {
         const lineColorToolbar = this.#createColorToolbar('line-color',
             {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
                 color => {
-                    this.page.selectControl.control.lineColor = color;
+                    const control = this.page.selectControl.control;
+                    this.historyManager.startUndo(new LineColorAction('undo line color', control));
+                    control.lineColor = color;
+                    this.historyManager.endUndo(new LineColorAction('redo line color', control));
                 }
         );
         lineColorToolbar.classList.add('bg-slate-200');
@@ -180,18 +186,26 @@ export class Editor {
         lineStyleToolbar.className = COMMON_TOOLBAR_STYLE;
 
         const lineSolid = this.#createButton('./icon/line_width_1.png', '', () => {
-            this.page.selectControl.control.lineStyle = LineStyle.SOLID;
+            const control = this.page.selectControl.control;
+            this.#changeLineStyle(control, LineStyle.SOLID);
             this.render();
         });
         lineStyleToolbar.appendChild(lineSolid);
 
         const lineDash = this.#createButton('./icon/line_dash.png', '', () => {
-            this.page.selectControl.control.lineStyle = LineStyle.DASH;
+            const control = this.page.selectControl.control;
+            this.#changeLineStyle(control, LineStyle.DASH);
             this.render();
         });
         lineStyleToolbar.appendChild(lineDash);
 
         return lineStyleToolbar;
+    }
+
+    #changeLineStyle(control, lineStyle) {
+        this.historyManager.startUndo(new LineStyleAction('undo line Style', control));
+        control.lineStyle = lineStyle;
+        this.historyManager.endUndo(new LineStyleAction('redo line Style', control));
     }
 
     #createLineWidthToolbar() {
@@ -205,7 +219,10 @@ export class Editor {
             const lineWidthBtn = document.createElement('button');
             lineWidthBtn.className = 'w-8 h-8 ml-1 mr-1 pl-1 pr-1 inline-flex items-center justify-center rounded hover:bg-slate-200';
             lineWidthBtn.addEventListener('click', () => {
-                this.page.selectControl.control.lineWidth = i;
+                const control = this.page.selectControl.control;
+                this.historyManager.startUndo(new LineWidthAction('undo line width', control));
+                control.lineWidth = i;
+                this.historyManager.endUndo(new LineWidthAction('redo line width', control));
                 this.render();
             });
             const lineTag = document.createElement('span');
