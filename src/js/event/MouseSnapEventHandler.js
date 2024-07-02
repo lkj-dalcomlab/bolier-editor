@@ -14,6 +14,8 @@ export class MouseSnapEventHandler extends EventHandler {
         e.down = true;
         e.downPoint.x = e.point.x;
         e.downPoint.y = e.point.y;
+        e.dragPoint.x = e.point.x;
+        e.dragPoint.y = e.point.y;
         this.#setEvent(e);
     }
 

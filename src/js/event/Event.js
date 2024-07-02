@@ -2,6 +2,7 @@ export class Event {
     constructor(editor) {
         this._editor = editor;
         this._down = false;
+        this._dragPoint = {x: 0, y: 0};
         this._downPoint = {x: 0, y: 0};
         this._point = {x: 0, y: 0};
         this._originPoint = {x: 0, y: 0};
@@ -25,6 +26,14 @@ export class Event {
 
     set down(b) {
         this._down = b;
+    }
+
+    get dragPoint() {
+        return this._dragPoint;
+    }
+
+    set dragPoint(value) {
+        this._dragPoint = value;
     }
 
     get downPoint() {

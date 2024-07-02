@@ -1,5 +1,4 @@
 import {EventHandler} from "../EventHandler.js";
-import {MoveAction} from "../../command/undo/MoveAction.js";
 import {ResizeAction} from "../../command/undo/ResizeAction.js";
 
 export class MoveControlEventHandler extends EventHandler {
@@ -19,7 +18,13 @@ export class MoveControlEventHandler extends EventHandler {
     }
 
     onMouseUp(e) {
-        e.editor.historyManager.endUndo(new ResizeAction('redo move', e.editor.page.selectControl.control));
         e.editor.finishDragHandler();
+        //TODO: duplicate
+        const xGap = Math.abs(e.dragPoint.x - e.point.x);
+        const yGap = Math.abs(e.dragPoint.y - e.point.y);
+        if (xGap <= 1 &&  yGap <= 1) {
+            return;
+        }
+        e.editor.historyManager.endUndo(new ResizeAction('redo move', e.editor.page.selectControl.control));
     }
 }

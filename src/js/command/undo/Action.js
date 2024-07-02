@@ -5,6 +5,7 @@ export class Action {
     }
 
     run() {
+        console.log(this.name);
         this.runner();
     }
 }
