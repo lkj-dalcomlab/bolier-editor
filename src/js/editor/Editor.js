@@ -76,7 +76,7 @@ export class Editor {
     #createToolbar(toolbar) {
         toolbar.className =
             'pointer-events-auto flex items-center rounded-md border border-slate-200 ' +
-            'shadow-sm bg-background text-foreground relative gap-0.5 p-0.5 p-1 pl-3 pr-3';
+            'shadow-sm bg-background text-foreground relative gap-0.5 p-0.5 p-1 pl-3 pr-1';
         const lineBtn = this.#createButton('./icon/line.png', 'Q', () => {
             this._tools.createLine();
         });
@@ -99,9 +99,18 @@ export class Editor {
         toolbar.appendChild(imageBtn);
 
         const separator = document.createElement('div');
-        separator.className = 'shrink-0 bg-border h-full w-[1px] dark:bg-gray-300';
+        separator.className = 'shrink-0 bg-border h-full w-[1px] mr-2 dark:bg-gray-300';
         separator.role = 'none';
         toolbar.appendChild(separator);
+
+        const undoBtn = this.#createButton('./icon/undo.png', 'Z', ()=> {
+            this._tools.undo();
+        });
+        const redoBtn = this.#createButton('./icon/redo.png', 'Y', ()=> {
+            this._tools.redo();
+        });
+        toolbar.appendChild(undoBtn);
+        toolbar.appendChild(redoBtn);
     }
 
     #createControlOptionToolbar() {
@@ -268,10 +277,10 @@ export class Editor {
         if (shortCutKey !== '') {
             img.classList.add('mr-2');
 
-            const shortcutBtn = document.createElement('div');
-            shortcutBtn.className = 'w-2 h-3 items-center justify-center absolute right-0 bottom-0 text-[8px] opacity-40';
-            shortcutBtn.textContent = shortCutKey;
-            btnWrap.appendChild(shortcutBtn);
+            const shortcutTxt = document.createElement('div');
+            shortcutTxt.className = 'w-2 h-3 items-center justify-center absolute right-0 bottom-0 text-[8px] opacity-40';
+            shortcutTxt.textContent = shortCutKey;
+            btnWrap.appendChild(shortcutTxt);
         }
 
         return btnWrap;
