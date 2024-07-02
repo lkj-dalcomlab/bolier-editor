@@ -23,7 +23,13 @@ export class ResizeControlEventHandler extends EventHandler {
         control.updatePointPosition();
         control.updatePointRatio();
 
-        e.editor.historyManager.endUndo(new ResizeAction('redo Resize', control));
         e.editor.finishDragHandler();
+        //TODO: duplicate
+        const xGap = Math.abs(e.dragPoint.x - e.point.x);
+        const yGap = Math.abs(e.dragPoint.y - e.point.y);
+        if (xGap <= 1 &&  yGap <= 1) {
+            return;
+        }
+        e.editor.historyManager.endUndo(new ResizeAction('redo Resize', control));
     }
 }
