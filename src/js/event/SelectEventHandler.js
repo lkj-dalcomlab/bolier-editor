@@ -7,7 +7,6 @@ import {PointPosition} from "../editor/control/PointPosition.js";
 import {ResizeControlEventHandler} from "./drag/ResizeControlEventHandler.js";
 import {ToolbarUtil} from "../editor/ToolbarUtil.js";
 import {ResizeAction} from "../command/undo/ResizeAction.js";
-import {MoveAction} from "../command/undo/MoveAction.js";
 
 export class SelectEventHandler extends EventHandler {
     constructor() {
