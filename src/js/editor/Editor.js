@@ -7,6 +7,7 @@ import {HistoryManager} from "./HistoryManager.js";
 import {LineColorAction} from "../command/undo/LineColorAction.js";
 import {LineStyleAction} from "../command/undo/LineStyleAction.js";
 import {LineWidthAction} from "../command/undo/LineWidthAction.js";
+import {FillColorAction} from "../command/undo/FillColorAction.js";
 
 const COMMON_TOOLBAR_STYLE =
     'hidden pointer-events-auto flex items-center rounded-md border border-slate-300 ' +
@@ -145,7 +146,10 @@ export class Editor {
         const fillColorToolbar = this.#createColorToolbar('fill-color',
             {x: ToolbarPosition.LINE_COLOR_LEFT, y: ToolbarPosition.TOOLBAR_TOP},
             color => {
+                const control = this.page.selectControl.control;
+                this.historyManager.startUndo(new FillColorAction('undo fill color', control));
                 this.page.selectControl.control.fillColor = color;
+                this.historyManager.endUndo(new FillColorAction('redo fill color', control));
             }
         );
         fillColorToolbar.classList.add('bg-slate-300');
