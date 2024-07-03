@@ -27,6 +27,9 @@ export class ShortCutKeyEventHandler extends EventHandler {
             case 't':
                 tools.createImage();
                 break;
+            case 'a':
+                tools.createLabel(e.point);
+                break;
             case 'Escape':
                 tools.clear();
                 break;
