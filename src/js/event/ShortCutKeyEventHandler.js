@@ -10,6 +10,10 @@ export class ShortCutKeyEventHandler extends EventHandler {
     }
 
     onKeyDown(e) {
+        if (!e.editor._enabledShortcut) {
+            return;
+        }
+
         const tools = e.editor.tools;
         switch (e.originEvent.key) {
             case 'q':

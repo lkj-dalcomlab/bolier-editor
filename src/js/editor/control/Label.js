@@ -4,7 +4,7 @@ export class Label extends Rect {
     constructor() {
         super();
         this._text = '';
-        this._fontSize = 5;
+        this._fontSize = 20;
         this._fontColor = 'rgb(0, 0, 0)';
     }
 
@@ -13,7 +13,12 @@ export class Label extends Rect {
     }
 
     set text(value) {
+        console.log(value);
         this._text = value;
+    }
+
+    get fontSize() {
+        return this._fontSize;
     }
 
     set fontSize(value) {
@@ -25,6 +30,6 @@ export class Label extends Rect {
     }
 
     render(painter) {
-        painter.drawText(this.lt, this._text);
+        painter.drawLabel(this);
     }
 }

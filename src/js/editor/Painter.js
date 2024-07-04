@@ -9,15 +9,15 @@ export class Painter {
         return this._ctx;
     }
 
-    drawText(p, text) {
-        const width = this.ctx.measureText(text).width;
-        const height = 15;
-        const x = p.x;
-        const y = p.y;
-        this.ctx.font = '10px Arial';
-        this.ctx.textAlign = 'center';
-        this.ctx.textBaseline = 'middle';
-        this.ctx.fillText(text, x, y);
+    drawLabel(label) {
+        // const width = this.ctx.measureText(text).width;
+        // const height = 15;
+        const x = label.lt.x;
+        const y = label.lb.y;
+        this.ctx.font = label.fontSize + 'px Arial';
+        // this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'bottom';
+        this.ctx.fillText(label.text, x, y);
     }
 
     drawLine(p1, p2, color = 'black', width = 1, opacity = 1, style = LineStyle.SOLID) {

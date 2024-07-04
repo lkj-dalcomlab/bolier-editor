@@ -32,6 +32,7 @@ export class Editor {
         this._tools = new Tools(this);
 
         this.foregroundRender = null;
+        this._enabledShortcut = true;
 
         this.#init(root);
     }
@@ -303,6 +304,14 @@ export class Editor {
 
     #captureRender() {
         this.page.captureRender();
+    }
+
+    get enabledShortcut() {
+        return this._enabledShortcut;
+    }
+
+    set enabledShortcut(value) {
+        this._enabledShortcut = value;
     }
 
     addEventHandler(handler) {
